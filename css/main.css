@@ -6,6 +6,7 @@ body {
 footer {
     font-size: small;
     color: gray;
+    margin-bottom: 5%;
 }
 
 .item input {
@@ -16,5 +17,3 @@ footer {
     font-size: large;
     font-weight: bold;
 }
-
-

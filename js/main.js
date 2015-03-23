@@ -6,6 +6,8 @@ $(document).ready(function() {
         return parseFloat(str.replace('₹', '').trim());
     };
 
+    body.find('span.current-year').html(new Date().getFullYear());
+
     body.on('click', '.add-item', function(e) {
         var i = $('.items .item').length+1;
         var itemElement = $('.item-template').clone();
@@ -103,6 +105,35 @@ $(document).ready(function() {
         $('.education-cess').html('₹ '+ educationCess);
         $('.higher-education-cess').html('₹ '+ higherEducationCess);
         $('.payable-total').html('₹ '+totalAmountPayable);
+    };
+
+    body.on('click', '.generate-bill', function() {
+        var info = createFormDataObject();
+        var doc = new jsPDF();
+        billWriter.config.blank = false;
+        billWriter.generateBill(doc, info);
+        billWriter.download(doc);
+    });
+
+    body.on('click', '.generate-blank-bill', function() {
+        var info = createFormDataObject();
+        var doc = new jsPDF();
+        billWriter.config.blank = true;
+        billWriter.generateBill(doc, info);
+        billWriter.download(doc);
+    });
+
+    var createFormDataObject = function() {
+        var info = {};
+        info.billNo = $('input#billNo').val();
+
+        info.customer = {
+            name: $('input#purchaser').val(),
+            address: $('textarea#purchaser-address').val(),
+            pan: $('input#purchaser-tin').val()
+        };
+
+        return info;
     };
 
 }); // END DOCUMENT READY
