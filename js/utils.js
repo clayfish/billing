@@ -4,6 +4,6 @@ var utils = {
         if(date === undefined || date == null) {
             date = new Date();
         }
-        return MONTH.find(date.getMonth()).displayName+" "+date.getDate()+","+date.getFullYear();
+        return MONTH.find(date.getMonth()).displayName+" "+date.getDate()+", "+date.getFullYear();
     }
 };

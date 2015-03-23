@@ -2,13 +2,13 @@
 var billWriter = {
     version: '0.1.0',
     config: {
-        companyName: "Vishal Traders",
+        companyName: "Global Vision",
         address: "A83, Gali No 5, Saket, New Delhi-30",
         tin: "12DF33FFG32F",
         terms: ["1. Goods once sold cannot be taken back.",
             "2. Interest @18% pa chargeable on bills unpaid for more than 15 days.",
             "3. Dispute will be under Delhi jurisdiction.",
-            "4. This bill is not valid without valid signatures."],
+            "4. This bill is not valid without authority signatures."],
         eAndOe: true,
         blank: false
     },
