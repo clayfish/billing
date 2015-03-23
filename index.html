@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,800,700,600' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700,900' rel='stylesheet' type='text/css'>
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <title>Billing System</title>
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap-3.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<div class="nav-outer">
+    <div class="container" style="height: 150px; max-width: 100%; padding: 0 !important;">
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex1-collapse">-->
+                <!--<span class="icon icon-bar"></span>-->
+                <!--<span class="icon icon-bar"></span>-->
+                <!--<span class="icon icon-bar"></span>-->
+                <!--</button>-->
+                <a class="" href="#homePageCarousel">
+                    <img class="" src="img/logo.png" alt="Billing" width="50px">
+                </a>
+
+                <ul class="nav navbar-nav pull-right">
+                    <li class="active">
+                        <a class="" data-toggle="dropdown" href="#homePageCarousel">HOME</a>
+                    </li>
+                    <!--<li class="">-->
+                    <!--<a target="_blank" href="http://nowfloats.com/boost/applinks?id=home">SERVICES</a>-->
+                    <!--</li>-->
+                    <li class="dropdown">
+                        <a class="scroll" href="#product">PRODUCT</a>
+                        <!--<ul class="dropdown-menu">-->
+                        <!--<li class=""><a href="#product">PRODUCT</a></li>-->
+                        <!--<li class=""><a href="#features">FEATURES</a></li>-->
+                        <!--<li><a href="#plans">PLANS</a></li>-->
+                        <!--</ul>-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="scroll" href="#industries">CLIENTS</a>
+                        <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="#testimonials">TESTIMONIAL</a></li>-->
+                        <!--<li><a href="#homePageCarousel">ALL CUSTOMERS</a></li>-->
+                        <!--</ul>-->
+                    </li>
+                    <li class="dropdown">
+                        <a class="scroll" href="#about-us">ABOUT US</a>
+                        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">ABOUT US</a>-->
+                        <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="#about-us">MISSION</a></li>-->
+                        <!--<li><a href="#team">TEAM</a></li>-->
+                        <!--<li><a href="#faq">FAQ</a></li>-->
+                        <!--</ul>-->
+                    </li>
+                    <!--<li class="">-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#accolades">JOURNAL</a>-->
+                    <!--</li>-->
+
+                    <li class=""><a class="dropdown-toggle" href="#contact-us">CONTACT</a></li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+    </div>
+</div>
+
+<div class="container">
+    <div class="">
+        <form class="form-horizontal" action="#" method="post" role="form">
+            <legend>Purchaser</legend>
+            <div class="form-group">
+                <label for="purchaser" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="purchaser" placeholder="Mr John Doe" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="purchaser-address" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <textarea rows="3" class="form-control" id="purchaser-address" placeholder="Purchaser's address"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="purchaser-tin" class="col-sm-2 control-label">TIN/PAN</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="purchaser-tin" placeholder="Purchaser's TIN/PAN">
+                </div>
+            </div>
+
+            <legend>Items</legend>
+            <div class="row heading">
+                <div class="col-sm-1">Sr No</div>
+                <div class="col-sm-5">Name</div>
+                <div class="col-sm-2">Price</div>
+                <div class="col-sm-2">Unit/Quantity</div>
+                <div class="col-sm-2">Price</div>
+            </div>
+
+            <div class="items">
+                <div class="row item" data-serial="1">
+                    <div class="col-sm-1 sr-no">1</div>
+                    <div class="col-sm-5">
+                        <input class="form-control item-name" type="text">
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">₹</span>
+                            <input class="form-control item-price" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="form-control item-quantity" value="1" type="text">
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="form-control-static item-row-price">₹ 0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-2">
+                    <span class="btn btn-primary add-item">Add item</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Total</label>
+                <div class="col-sm-offset-8 col-sm-2">
+                    <p class="form-control-static item-total">₹ 0</p>
+                </div>
+            </div>
+
+            <legend>Discount</legend>
+            <div class="form-group">
+                <label for="discount" class="col-sm-2 control-label">Percentage</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="discount" value="0" placeholder="Discount" max="100" min="0">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-sm-offset-6 col-sm-2">
+                    <p class="form-control-static discount-amount">-₹ 0</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Total</label>
+                <div class="col-sm-offset-8 col-sm-2">
+                    <p class="form-control-static discount-total">₹ 0</p>
+                </div>
+            </div>
+
+            <legend>Taxes</legend>
+            <div class="form-group">
+                <label for="vat" class="col-sm-2 control-label">VAT</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="vat" value="12.5" placeholder="VAT (12.5%)">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-sm-offset-6 col-sm-2">
+                    <p class="form-control-static vat-amount">₹ 0</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="service-tax" class="col-sm-2 control-label">Service Tax</label>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="service-tax" value="14" placeholder="Service Tax">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="col-sm-offset-6 col-sm-2">
+                    <p class="form-control-static service-tax-amount">₹ 0</p>
+                </div>
+            </div>
+
+            <div class="service-tax-extras">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Education Cess (2%)</label>
+                    <div class="col-sm-offset-6 col-sm-2">
+                        <p class="form-control-static education-cess">₹ 0</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Higher Education Cess (1%)</label>
+                    <div class="col-sm-offset-6 col-sm-2">
+                        <p class="form-control-static higher-education-cess">₹ 0</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Total payable</label>
+                <div class="col-sm-offset-8 col-sm-2">
+                    <p class="form-control-static payable-total">₹ 0</p>
+                </div>
+            </div>
+            <hr/>
+
+        </form>
+        <div class="row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-lg btn-success">Generate Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <hr/>
+        &#169; 2015 Nishi Inc. All rights reserved.
+    </footer>
+</div>
+
+<div class="row item-template hide" data-serial="0">
+    <div class="col-sm-1 sr-no">0</div>
+    <div class="col-sm-5">
+        <input class="form-control item-name" type="text">
+    </div>
+    <div class="col-sm-2">
+        <div class="input-group">
+            <span class="input-group-addon">₹</span>
+            <input class="form-control item-price" type="text">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <input class="form-control item-quantity" value="1" type="text">
+    </div>
+    <div class="col-sm-2">
+        <p class="form-control-static item-row-price">₹ 0</p>
+    </div>
+</div>
+
+<script src="libs/jquery-1.11.1.min.js"></script>
+<script src="libs/bootstrap-3.3.2-dist/js/bootstrap.js"></script>
+<script src="libs/jsPDF/jspdf.debug.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+body {
+    font-size: large;
+    font-family: 'Open sans', sans-serif;
+}
+
+footer {
+    font-size: small;
+    color: gray;
+}
+
+.item input {
+    width: 100%;
+}
+
+.heading, .discount-total, .payable-total {
+    font-size: large;
+    font-weight: bold;
+}
+
+
