@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
+    var testMode = true;
 
     var getNumber = function(str) {
         return parseFloat(str.replace('₹', '').trim());
@@ -22,7 +23,7 @@ $(document).ready(function() {
         var parent = $(this).closest('.item');
         var price = getNumber($(parent).find('.item-price').val()) * getNumber($(parent).find('.item-quantity').val());
         price = price.toFixed(2);
-        $(parent).find('.item-row-price').html('₹ '+ price);
+        $(parent).find('.item-row-price').html('&#8377; '+ price);
         updateTotals();
     });
 
@@ -69,7 +70,7 @@ $(document).ready(function() {
             total = total + getNumber($(this).find('.item-row-price').html());
         });
         total = total.toFixed(2);
-        $('.item-total').html('₹ '+total);
+        $('.item-total').html('&#8377; '+total);
     };
 
     var updateDiscountTotal = function() {
@@ -78,10 +79,10 @@ $(document).ready(function() {
             var itemTotal = getNumber($('.item-total').html());
             var discountAmount = itemTotal*percentageDiscount/100;
             discountAmount = discountAmount.toFixed(2);
-            $('.discount-amount').html('-₹ '+ discountAmount);
-            $('.discount-total').html('₹ '+(itemTotal-discountAmount).toFixed(2));
+            $('.discount-amount').html('-&#8377; '+ discountAmount);
+            $('.discount-total').html('&#8377; '+(itemTotal-discountAmount).toFixed(2));
         } else {
-            $('.discount-amount').html('-₹ 0');
+            $('.discount-amount').html('-&#8377; 0');
             $('.discount-total').html($('.item-total').html());
         }
     };
@@ -100,11 +101,11 @@ $(document).ready(function() {
         higherEducationCess = higherEducationCess.toFixed(2);
         totalAmountPayable = totalAmountPayable.toFixed(2);
 
-        $('.vat-amount').html('₹ '+ vatAmount);
-        $('.service-tax-amount').html('₹ '+ serviceTaxAmount);
-        $('.education-cess').html('₹ '+ educationCess);
-        $('.higher-education-cess').html('₹ '+ higherEducationCess);
-        $('.payable-total').html('₹ '+totalAmountPayable);
+        $('.vat-amount').html('&#8377; '+ vatAmount);
+        $('.service-tax-amount').html('&#8377; '+ serviceTaxAmount);
+        $('.education-cess').html('&#8377; '+ educationCess);
+        $('.higher-education-cess').html('&#8377; '+ higherEducationCess);
+        $('.payable-total').html('&#8377; '+totalAmountPayable);
     };
 
     body.on('click', '.generate-bill', function() {
@@ -133,7 +134,69 @@ $(document).ready(function() {
             pan: $('input#purchaser-tin').val()
         };
 
+        info.items = {
+            total: $('p.item-total').html(),
+            list: []
+        };
+        $('.items .item').each(function() {
+            info.items.list.push({
+                name: $(this).find('input.item-name').val(),
+                price: $(this).find('input.item-price').val(),
+                unit: $(this).find('input.item-quantity').val(),
+                amount: $(this).find('p.item-row-price').html()
+            });
+        });
+
+        var discountPercent = parseFloat($('input#discount').val()).toFixed(2);
+        info.discount = {
+            available: discountPercent>0,
+            percent: discountPercent+'%',
+            amount: $('p.discount-amount').html(),
+            totalAfterDiscount: $('p.discount-total').html()
+        };
+
+        info.taxApplied = true;
+        info.taxes = {
+            totalWithTaxes: $('p.payable-total').html(),
+            list: [{
+                name: 'VAT',
+                percent: $('input#vat').val()+'%',
+                amount: $('p.vat-amount').html()
+            }]
+        };
+        var serviceTaxPercent = parseFloat($('input#service-tax').val()).toFixed(2);
+        if(serviceTaxPercent>0) {
+            info.taxes.list.push({
+                name: 'Service Tax',
+                percent: serviceTaxPercent+'%',
+                amount: $('p.service-tax-amount').html()
+            });
+            info.taxes.list.push({
+                name: 'Education Cess',
+                percent: '2%',
+                amount: $('p.education-cess').html()
+            });
+            info.taxes.list.push({
+                name: 'Higher Education Cess',
+                percent: '1%',
+                amount: $('p.higher-education-cess').html()
+            });
+        }
+
         return info;
     };
+
+    if(testMode) {
+        // Fill in the test data
+        $('input#billNo').val('TESTING');
+        $('input#purchaser').val("John Ahmed Doe");
+        $('textarea#purchaser-address').val("B-221, Baker Street\nDown Town\nLondon, UK");
+        $('input#purchaser-tin').val("THSPD1251Y");
+
+        $('.items .item input.item-name').val("Royal Enfield");
+        $('.items .item input.item-price').val(55000);
+        $('.items .item input.item-quantity').val(1);
+        updateTotals();
+    }
 
 }); // END DOCUMENT READY
