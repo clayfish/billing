@@ -110,23 +110,25 @@ $(document).ready(function() {
 
     body.on('click', '.generate-bill', function() {
         var info = createFormDataObject();
-        var doc = new jsPDF();
         billWriter.config.blank = false;
-        billWriter.generateBill(doc, info);
+        var doc = billWriter.generateBill(info);
         billWriter.download(doc);
     });
 
     body.on('click', '.generate-blank-bill', function() {
         var info = createFormDataObject();
-        var doc = new jsPDF();
         billWriter.config.blank = true;
-        billWriter.generateBill(doc, info);
+        var doc = billWriter.generateBill(info);
         billWriter.download(doc);
     });
 
     var createFormDataObject = function() {
         var info = {};
         info.billNo = $('input#billNo').val();
+        if(info.billNo == '') {
+            var now = new Date();
+            info.billNo = ''+now.getFullYear()+(now.getMonth()+1)+now.getDate();
+        }
 
         info.customer = {
             name: $('input#purchaser').val(),
