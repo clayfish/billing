@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var testMode = true;
+    var testMode = false;
 
     var getNumber = function(str) {
         return parseFloat(str.replace('₹', '').trim());
