@@ -140,11 +140,7 @@ var generateBillHeader = function (doc) {
 };
 
 var border = function (doc) {
-    doc.rect(10, 10, 190, 275);
-};
-
-var writeEAndOe = function (doc) {
-    return doc;
+    // TODO Implement drawing a border
 };
 
 var writeCustomerInfo = function (doc, info) {
@@ -190,6 +186,7 @@ var writeCustomerInfo = function (doc, info) {
 
 var writeItems = function (doc, info) {
     var tableObject = {
+        layout: 'lightHorizontalLines',
         table: {
             headerRows: 1,
             widths: [25, 250, '*', '*', '*'],
@@ -340,7 +337,6 @@ var writeTerms = function (doc) {
     }
     return doc;
 };
-
 
 var writeFooter = function (doc) {
     doc.content.push({
