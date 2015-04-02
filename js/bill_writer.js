@@ -5,10 +5,10 @@ var billWriter = {
         address: "A83, Paryavaran Complex, IGNOU Road, Saidulajab, New Delhi-30",
         tin: "07086947245",
         contactNumber: '+91 9873 593229',
-        terms: ["1. Goods once sold cannot be taken back.",
-            "2. Interest @18% pa chargeable on bills unpaid for more than 15 days.",
-            "3. Dispute will be under Delhi jurisdiction.",
-            "4. This bill is not valid without authority signatures."],
+        terms: ["Goods once sold cannot be taken back.",
+            "Interest @18% pa chargeable on bills unpaid for more than 15 days.",
+            "Dispute will be under Delhi jurisdiction.",
+            "This bill is not valid without authority signatures."],
         eAndOe: true,
         blank: false
     },
@@ -57,6 +57,17 @@ var billWriter = {
                 total: {
                     bold: true,
                     alignment: 'right'
+                },
+                term: {
+                    fontSize: 6
+                },
+                termsHeading: {
+                    fontSize: 8,
+                    bold: true
+                },
+                signature: {
+                    color: 'red',
+                    alignment: 'right'
                 }
             }
         };
@@ -64,8 +75,8 @@ var billWriter = {
         doc = generateBillHeader(doc);
         doc = writeCustomerInfo(doc, info);
         doc = writeItems(doc, info);
-        //writeTerms(doc);
-        //writeFooter(doc);
+        doc = writeTerms(doc);
+        doc = writeFooter(doc);
         return doc;
     },
 
@@ -133,8 +144,7 @@ var border = function (doc) {
 };
 
 var writeEAndOe = function (doc) {
-    doc.setFontSize(8);
-    doc.text(190, 44, 'E & OE');
+    return doc;
 };
 
 var writeCustomerInfo = function (doc, info) {
@@ -306,42 +316,36 @@ var writeItems = function (doc, info) {
     return doc;
 };
 
-var writeTaxes = function (doc, info) {
-    if (!info.taxApplied) {
-        // No taxes, just extend the vertical lines of items
-        doc.line(20, 190, 20, 220);
-        doc.line(115, 190, 115, 220);
-        doc.line(140, 190, 140, 220);
-        doc.line(170, 200, 170, 230);
+var writeTerms = function (doc) {
+    doc.content.push({
+        text: 'Terms & Conditions',
+        style: 'termsHeading'
+    });
 
-        doc.line(10, 220, 200, 220);
-        doc.text(140, 227, "Total payable amount");
-        if (!billWriter.config.blank) {
-            doc.text(175, 224, info.discount.totalAfterDiscount);
-        }
-    } else {
-        // Draw a horizontal line to make it separate from Items
-        doc.line(10, 190, 200, 190);
-        doc.line(10, 200, 200, 200);
-        doc.text(160, 193, "Total");
-        if (!billWriter.config.blank) {
-            doc.text(170, 192, info.discount.totalAfterDiscount);
-            var cursor = {x: 20, y: 196};
-
-            for (var i = 0; i < info.taxes.list.length; i++) {
-                var tax = info.taxes.list[i];
-                doc.text(cursor.x, cursor.y, tax.name + ' (' + tax.percent + '&#8377;)');
-                doc.text(170, cursor.y, tax.amount);
-                cursor.y += 4;
-            }
-        }
+    var srNo = 0;
+    for(var i in billWriter.config.terms) {
+        srNo = parseInt(i)+1;
+        doc.content.push({
+            text: srNo+'. '+billWriter.config.terms[i],
+            style: 'term'
+        });
     }
-};
-var writeTerms = function (doc, terms) {
 
+    if(billWriter.config.eAndOe) {
+        srNo++;
+        doc.content.push({
+            text: srNo+'. '+'E & OE',
+            style: 'term'
+        })
+    }
+    return doc;
 };
+
+
 var writeFooter = function (doc) {
-    if (billWriter.config.eAndOe) {
-        writeEAndOe(doc);
-    }
+    doc.content.push({
+        text: 'For '+billWriter.config.companyName,
+        style: 'signature'
+    });
+    return doc;
 };

@@ -115,12 +115,13 @@ $(document).ready(function() {
         billWriter.download(doc);
     });
 
-    body.on('click', '.generate-blank-bill', function() {
-        var info = createFormDataObject();
-        billWriter.config.blank = true;
-        var doc = billWriter.generateBill(info);
-        billWriter.download(doc);
-    });
+    // TODO Re-enable this button
+    //body.on('click', '.generate-blank-bill', function() {
+    //    var info = createFormDataObject();
+    //    billWriter.config.blank = true;
+    //    var doc = billWriter.generateBill(info);
+    //    billWriter.download(doc);
+    //});
 
     var createFormDataObject = function() {
         var info = {};
