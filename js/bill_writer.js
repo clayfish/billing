@@ -63,11 +63,13 @@ var billWriter = {
                 },
                 termsHeading: {
                     fontSize: 8,
-                    bold: true
+                    bold: true,
+                    margin: [0, 50, 0, 0]
                 },
                 signature: {
                     color: 'red',
-                    alignment: 'right'
+                    alignment: 'right',
+                    margin: [0, 50, 0, 0]
                 }
             }
         };
@@ -119,14 +121,20 @@ var generateBillHeader = function (doc) {
         text: 'Retail Invoice/Bill',
         style: 'titleSmall'
     });
+
     doc.content.push({
-        text: [{
-            text: billWriter.config.companyName,
-            style: 'title'
-        }, {
-            text: billWriter.config.contactNumber,
-            style: 'contact'
-        }]
+        alignment: 'center',
+        columns: [
+            {text: ''},
+            {
+                text: billWriter.config.companyName,
+                style: 'title'
+            },
+            {
+                text: billWriter.config.contactNumber,
+                style: 'contact'
+            }
+        ]
     });
     doc.content.push({
         text: billWriter.config.address,

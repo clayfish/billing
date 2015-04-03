@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = false;
+    var devMode = true;
 
     var billGenerated = false;
 
@@ -248,8 +248,8 @@ $(document).ready(function() {
         $('textarea#purchaser-address').val("B-221, Baker Street\nDown Town\nLondon, UK");
         $('input#purchaser-tin').val("THSPD1251Y");
 
-        $('.items .item input.item-name').val("Royal Enfield");
-        $('.items .item input.item-price').val(55000);
+        $('.items .item input.item-name').val("Canon Printer");
+        $('.items .item input.item-price').val(3500);
         $('.items .item input.item-quantity').val(1);
         updateTotals();
     }
