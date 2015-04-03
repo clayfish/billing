@@ -3,11 +3,43 @@ $(document).ready(function() {
     var body = $('body');
     var devMode = false;
 
+    // COOKIES
+    var COMPANY_NAME = "companyName";
+    var COMPANY_PHONE = "companyPhone";
+    var COMPANY_TIN = "companyTin";
+    var COMPANY_ADDRESS = "companyAddress";
+    // In days
+    var DEFAULT_COOKIE_LIFE = 30;
+
     var getNumber = function(str) {
         return parseFloat(str.replace('₹', '').trim());
     };
 
     body.find('span.current-year').html(new Date().getFullYear());
+
+    body.on('change', '#company-name', function(e){
+        var companyName = $(this).val();
+        utils.setCookie(COMPANY_NAME, companyName, DEFAULT_COOKIE_LIFE);
+        billWriter.config.companyName = companyName;
+    });
+
+    body.on('change', '#company-address', function(e){
+        var companyAddress = $(this).val();
+        utils.setCookie(COMPANY_ADDRESS, companyAddress, DEFAULT_COOKIE_LIFE);
+        billWriter.config.address = companyAddress;
+    });
+
+    body.on('change', '#company-tin', function(e){
+        var companyTin = $(this).val();
+        utils.setCookie(COMPANY_TIN, companyTin, DEFAULT_COOKIE_LIFE);
+        billWriter.config.tin = companyTin;
+    });
+
+    body.on('change', '#company-contact', function(e){
+        var companyPhone = $(this).val();
+        utils.setCookie(COMPANY_PHONE, companyPhone, DEFAULT_COOKIE_LIFE);
+        billWriter.config.contactNumber = companyPhone;
+    });
 
     body.on('click', '.add-item', function(e) {
         var i = $('.items .item').length+1;
@@ -200,6 +232,15 @@ $(document).ready(function() {
         $('.items .item input.item-price').val(55000);
         $('.items .item input.item-quantity').val(1);
         updateTotals();
+    }
+
+    if(!utils.getCookie(COMPANY_NAME).length) {
+        $('.company-info').removeClass('hide');
+    } else {
+        billWriter.config.companyName = utils.getCookie(COMPANY_NAME);
+        billWriter.config.contactNumber = utils.getCookie(COMPANY_PHONE);
+        billWriter.config.address = utils.getCookie(COMPANY_ADDRESS);
+        billWriter.config.tin = utils.getCookie(COMPANY_TIN);
     }
 
 }); // END DOCUMENT READY
