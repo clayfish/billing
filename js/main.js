@@ -3,6 +3,8 @@ $(document).ready(function() {
     var body = $('body');
     var devMode = false;
 
+    var billGenerated = false;
+
     // COOKIES
     var COMPANY_NAME = "companyName";
     var COMPANY_PHONE = "companyPhone";
@@ -39,6 +41,23 @@ $(document).ready(function() {
         var companyPhone = $(this).val();
         utils.setCookie(COMPANY_PHONE, companyPhone, DEFAULT_COOKIE_LIFE);
         billWriter.config.contactNumber = companyPhone;
+    });
+
+    body.on('click', '.change-seller-info', function(e){
+        $('.company-info').removeClass('hide');
+        $(this).addClass('hide');
+    });
+
+    body.on('click', '.new-bill', function(e) {
+        if (billGenerated) {
+            location.reload();
+        } else {
+            // TODO replace this confirm with bootbox
+            var result = confirm("This bill has not been generated. Do you still want to continue?");
+            if(result) {
+                location.reload();
+            }
+        }
     });
 
     body.on('click', '.add-item', function(e) {
@@ -141,6 +160,7 @@ $(document).ready(function() {
     };
 
     body.on('click', '.generate-bill', function() {
+        billGenerated = true;
         var info = createFormDataObject();
         billWriter.config.blank = false;
         var doc = billWriter.generateBill(info);
@@ -236,11 +256,17 @@ $(document).ready(function() {
 
     if(!utils.getCookie(COMPANY_NAME).length) {
         $('.company-info').removeClass('hide');
+        $('.change-seller-info').addClass('hide');
     } else {
         billWriter.config.companyName = utils.getCookie(COMPANY_NAME);
         billWriter.config.contactNumber = utils.getCookie(COMPANY_PHONE);
         billWriter.config.address = utils.getCookie(COMPANY_ADDRESS);
         billWriter.config.tin = utils.getCookie(COMPANY_TIN);
+
+        $('#company-name').val(billWriter.config.companyName);
+        $('#company-address').val(billWriter.config.address);
+        $('#company-tin').val(billWriter.config.tin);
+        $('#company-contact').val(billWriter.config.contactNumber);
     }
 
 }); // END DOCUMENT READY
