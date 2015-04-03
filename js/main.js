@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var testMode = true;
+    var devMode = false;
 
     var getNumber = function(str) {
         return parseFloat(str.replace('₹', '').trim());
@@ -189,7 +189,7 @@ $(document).ready(function() {
         return info;
     };
 
-    if(testMode) {
+    if(devMode) {
         // Fill in the test data
         $('input#billNo').val('TESTING');
         $('input#purchaser').val("John Ahmed Doe");
