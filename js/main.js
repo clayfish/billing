@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = true;
+    var devMode = false;
 
     var billGenerated = false;
 
@@ -144,19 +144,19 @@ $(document).ready(function() {
         var serviceTaxAmount = totalAmount*$('input#service-tax').val()/100;
         var educationCess = serviceTaxAmount/50;
         var higherEducationCess = educationCess/2;
-        var totalAmountPayable = totalAmount+vatAmount+serviceTaxAmount+educationCess+higherEducationCess;
+        var totalAmountWithTax = totalAmount+vatAmount+serviceTaxAmount+educationCess+higherEducationCess;
 
         vatAmount = vatAmount.toFixed(2);
         serviceTaxAmount = serviceTaxAmount.toFixed(2);
         educationCess = educationCess.toFixed(2);
         higherEducationCess = higherEducationCess.toFixed(2);
-        totalAmountPayable = totalAmountPayable.toFixed(2);
+        totalAmountWithTax = totalAmountWithTax.toFixed(2);
 
         $('.vat-amount').html('&#8377; '+ vatAmount);
         $('.service-tax-amount').html('&#8377; '+ serviceTaxAmount);
         $('.education-cess').html('&#8377; '+ educationCess);
         $('.higher-education-cess').html('&#8377; '+ higherEducationCess);
-        $('.payable-total').html('&#8377; '+totalAmountPayable);
+        $('.total-with-tax').html('&#8377; '+totalAmountWithTax);
     };
 
     body.on('click', '.generate-bill', function() {
@@ -212,7 +212,7 @@ $(document).ready(function() {
 
         info.taxApplied = true;
         info.taxes = {
-            totalWithTaxes: $('p.payable-total').html(),
+            totalWithTaxes: $('p.total-with-tax').html(),
             list: [{
                 name: 'VAT',
                 percent: $('input#vat').val()+'%',

@@ -166,28 +166,33 @@ var writeCustomerInfo = function (doc, info) {
     };
 
     doc.content.push({
-        text: "Invoice: " + info.billNo
-    });
-    doc.content.push({
-        text: "Date: " + utils.getDate()
-    });
-
-    // Draw a vertical line
-
-    if (billWriter.config.blank) {
-        doc = writeBlankCustomerInfo();
-    } else {
-        doc.content.push({
+        alignment: 'justify',
+        columns: [{
+            text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate()
+        }, [{
             text: info.customer.name,
             bold: true
-        });
-        doc.content.push({
+        }, {
             text: info.customer.address
-        });
-        doc.content.push({
+        }, {
             text: "TIN/PAN: " + info.customer.pan
-        });
-    }
+        }]]
+    });
+
+    //if (billWriter.config.blank) {
+    //    doc = writeBlankCustomerInfo();
+    //} else {
+    //    doc.content.push({
+    //        text: info.customer.name,
+    //        bold: true
+    //    });
+    //    doc.content.push({
+    //        text: info.customer.address
+    //    });
+    //    doc.content.push({
+    //        text: "TIN/PAN: " + info.customer.pan
+    //    });
+    //}
 
     return insertLine(doc);
 };
