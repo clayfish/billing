@@ -1,3 +1,4 @@
+
 var billWriter = {
     version: '0.1.0',
     config: {
@@ -17,8 +18,21 @@ var billWriter = {
         if (info == undefined) {
             return;
         }
+
+        pdfMake.fonts = {
+            ubuntu: {
+                normal: 'Ubuntu-L.ttf',
+                bold: 'Ubuntu-B.ttf',
+                italics: 'Ubuntu-LI.ttf',
+                bolditalics: 'Ubuntu-BI.ttf'
+            }
+        };
+
         var doc = {
             content: [],
+            defaultStyle: {
+                font: "ubuntu"
+            },
             styles: {
                 title: {
                     fontSize: 30,
