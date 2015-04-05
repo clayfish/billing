@@ -1,9 +1,9 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = true;
+    var devMode = false;
 
-    var billGenerated = true;
+    var billGenerated = false;
 
     // COOKIES
     var COMPANY_NAME = "companyName";
