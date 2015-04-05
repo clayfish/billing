@@ -20,18 +20,18 @@ var billWriter = {
         }
 
         pdfMake.fonts = {
-            ubuntu: {
-                normal: 'Ubuntu-L.ttf',
-                bold: 'Ubuntu-B.ttf',
-                italics: 'Ubuntu-LI.ttf',
-                bolditalics: 'Ubuntu-BI.ttf'
-            }
-        };
+            Ubuntu: {
+                    normal: 'Ubuntu-L.ttf',
+                    bold: 'Ubuntu-B.ttf',
+                    italics: 'Ubuntu-LI.ttf',
+                    bolditalics: 'Ubuntu-BI.ttf'
+                }
+            };
 
         var doc = {
             content: [],
             defaultStyle: {
-                font: "ubuntu"
+                font: "Ubuntu"
             },
             styles: {
                 title: {
@@ -132,23 +132,21 @@ var insertLine = function (doc, vertical) {
 
 var generateBillHeader = function (doc) {
     doc.content.push({
-        text: 'Retail Invoice/Bill',
-        style: 'titleSmall'
+        alignment: 'center',
+        columns: [{
+            text: ''
+        }, {
+            text: 'Retail Invoice/Bill',
+            style: 'titleSmall'
+        }, {
+            text: billWriter.config.contactNumber,
+            style: 'contact'
+        }]
     });
 
     doc.content.push({
-        alignment: 'center',
-        columns: [
-            {text: ''},
-            {
-                text: billWriter.config.companyName,
-                style: 'title'
-            },
-            {
-                text: billWriter.config.contactNumber,
-                style: 'contact'
-            }
-        ]
+        text: billWriter.config.companyName,
+        style: 'title'
     });
     doc.content.push({
         text: billWriter.config.address,
@@ -216,7 +214,7 @@ var writeItems = function (doc, info) {
         layout: 'lightHorizontalLines',
         table: {
             headerRows: 1,
-            widths: [25, 250, '*', '*', '*'],
+            widths: [25, 200, '*', 75, '*'],
             dontBreakRows: true,
             body: [[{
                 text: "Sr",

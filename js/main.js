@@ -3,7 +3,7 @@ $(document).ready(function() {
     var body = $('body');
     var devMode = true;
 
-    var billGenerated = false;
+    var billGenerated = true;
 
     // COOKIES
     var COMPANY_NAME = "companyName";
