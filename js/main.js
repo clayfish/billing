@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = false;
+    var devMode = true;
 
     var billGenerated = false;
 
@@ -52,7 +52,7 @@ $(document).ready(function() {
         if (billGenerated) {
             location.reload();
         } else {
-            // TODO replace this confirm with bootbox
+            // TODO Replace this confirm with bootbox
             var result = confirm("This bill has not been generated. Do you still want to continue?");
             if(result) {
                 location.reload();
@@ -167,7 +167,7 @@ $(document).ready(function() {
         billWriter.download(doc);
     });
 
-    // TODO Re-enable this button
+    // TODO #6 Re-enable this button
     //body.on('click', '.generate-blank-bill', function() {
     //    var info = createFormDataObject();
     //    billWriter.config.blank = true;
@@ -237,6 +237,8 @@ $(document).ready(function() {
                 amount: $('p.higher-education-cess').html()
             });
         }
+
+        info.invoiceType = $('input[type="radio"][name="invoiceType"]:checked').val();
 
         return info;
     };

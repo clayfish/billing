@@ -88,7 +88,7 @@ var billWriter = {
             }
         };
         //border(doc);
-        doc = generateBillHeader(doc);
+        doc = generateBillHeader(doc, info);
         doc = writeCustomerInfo(doc, info);
         doc = writeItems(doc, info);
         doc = writeTerms(doc);
@@ -109,7 +109,21 @@ var billWriter = {
 
 var insertLine = function (doc, vertical) {
     if (vertical) {
-        // TODO draw a vertical line
+        // FIXME Test the vertical line
+        doc.content.push({
+            table: {
+                widths: ['*'],
+                body: [[" "], [" "]]
+            },
+            layout: {
+                hLineWidth: function () {
+                    return 0;
+                },
+                vLineWidth: function (i, node) {
+                    return (i === 0 || i === node.table.body.length) ? 0 : 1;
+                }
+            }
+        });
     } else {
         doc.content.push({
             table: {
@@ -118,9 +132,9 @@ var insertLine = function (doc, vertical) {
             },
             layout: {
                 hLineWidth: function (i, node) {
-                    return (i === 0 || i === node.table.body.length) ? 0 : 2;
+                    return (i === 0 || i === node.table.body.length) ? 0 : 1;
                 },
-                vLineWidth: function (i, node) {
+                vLineWidth: function () {
                     return 0;
                 }
             }
@@ -130,13 +144,13 @@ var insertLine = function (doc, vertical) {
     return doc;
 };
 
-var generateBillHeader = function (doc) {
+var generateBillHeader = function (doc, info) {
     doc.content.push({
         alignment: 'center',
         columns: [{
             text: ''
         }, {
-            text: 'Retail Invoice/Bill',
+            text: info.invoiceType + ' Invoice/Bill',
             style: 'titleSmall'
         }, {
             text: billWriter.config.contactNumber,
@@ -177,34 +191,23 @@ var writeCustomerInfo = function (doc, info) {
         return doc;
     };
 
-    doc.content.push({
-        alignment: 'justify',
-        columns: [{
-            text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate()
-        }, [{
-            text: info.customer.name,
-            bold: true
-        }, {
-            text: info.customer.address
-        }, {
-            text: "TIN/PAN: " + info.customer.pan
-        }]]
-    });
-
-    //if (billWriter.config.blank) {
-    //    doc = writeBlankCustomerInfo();
-    //} else {
-    //    doc.content.push({
-    //        text: info.customer.name,
-    //        bold: true
-    //    });
-    //    doc.content.push({
-    //        text: info.customer.address
-    //    });
-    //    doc.content.push({
-    //        text: "TIN/PAN: " + info.customer.pan
-    //    });
-    //}
+    if (billWriter.config.blank) {
+        doc = writeBlankCustomerInfo();
+    } else {
+        doc.content.push({
+            alignment: 'justify',
+            columns: [{
+                text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate()
+            }, [{
+                text: info.customer.name,
+                bold: true
+            }, {
+                text: info.customer.address
+            }, {
+                text: "TIN/PAN: " + info.customer.pan
+            }]]
+        });
+    }
 
     return insertLine(doc);
 };
@@ -310,7 +313,7 @@ var writeItems = function (doc, info) {
 
         // Including taxes
         if(info.taxApplied) {
-            for(var i in info.taxes.list) {
+            for(i in info.taxes.list) {
                 tableObject.table.body.push([{
                     text: info.taxes.list[i].name + ' (' + info.taxes.list[i].percent + ')',
                     style: 'tax',
@@ -344,7 +347,7 @@ var writeTerms = function (doc) {
         style: 'termsHeading'
     });
 
-    var srNo = 0;
+    var srNo;
     for(var i in billWriter.config.terms) {
         srNo = parseInt(i)+1;
         doc.content.push({
