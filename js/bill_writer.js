@@ -5,6 +5,7 @@ var billWriter = {
         companyName: "Global Vision",
         address: "A83, Paryavaran Complex, IGNOU Road, Saidulajab, New Delhi-30",
         tin: "07086947245",
+        serviceTax: '',
         contactNumber: '+91 9873 593229',
         terms: ["Goods once sold cannot be taken back.",
             "Interest @18% pa chargeable on bills unpaid for more than 15 days.",
@@ -356,12 +357,20 @@ var writeTerms = function (doc) {
         });
     }
 
+    if(billWriter.config.serviceTax && billWriter.config.serviceTax.length) {
+        srNo++;
+        doc.content.push({
+            text: srNo+'Service tax number: '+billWriter.config.serviceTax,
+            style: 'term'
+        });
+    }
+
     if(billWriter.config.eAndOe) {
         srNo++;
         doc.content.push({
             text: srNo+'. '+'E & OE',
             style: 'term'
-        })
+        });
     }
     return doc;
 };

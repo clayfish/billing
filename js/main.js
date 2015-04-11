@@ -9,6 +9,7 @@ $(document).ready(function() {
     var COMPANY_NAME = "companyName";
     var COMPANY_PHONE = "companyPhone";
     var COMPANY_TIN = "companyTin";
+    var COMPANY_SERVICE_TAX = "companyServiceTax";
     var COMPANY_ADDRESS = "companyAddress";
     // In days
     var DEFAULT_COOKIE_LIFE = 30;
@@ -18,6 +19,15 @@ $(document).ready(function() {
     };
 
     body.find('span.current-year').html(new Date().getFullYear());
+
+    var checkServiceTaxApplicability = function() {
+        var serviceTaxGroup = $('.service-tax-group');
+        if($('#company-service-tax-no').val().length) {
+            serviceTaxGroup.removeClass('hide');
+        } else {
+            serviceTaxGroup.addClass('hide');
+        }
+    }
 
     body.on('change', '#company-name', function(e){
         var companyName = $(this).val();
@@ -35,6 +45,13 @@ $(document).ready(function() {
         var companyTin = $(this).val();
         utils.setCookie(COMPANY_TIN, companyTin, DEFAULT_COOKIE_LIFE);
         billWriter.config.tin = companyTin;
+    });
+
+    body.on('change', '#company-service-tax-no', function(e){
+        var companyServiceTax = $(this).val();
+        utils.setCookie(COMPANY_SERVICE_TAX, companyServiceTax, DEFAULT_COOKIE_LIFE);
+        billWriter.config.serviceTax = companyServiceTax;
+        checkServiceTaxApplicability();
     });
 
     body.on('change', '#company-contact', function(e){
@@ -210,17 +227,22 @@ $(document).ready(function() {
             totalAfterDiscount: $('p.discount-total').html()
         };
 
-        info.taxApplied = true;
         info.taxes = {
             totalWithTaxes: $('p.total-with-tax').html(),
-            list: [{
-                name: 'VAT',
-                percent: $('input#vat').val()+'%',
-                amount: $('p.vat-amount').html()
-            }]
+            list: []
         };
+
+        var vatPercent = parseFloat($('input#vat').val()).toFixed(2);
         var serviceTaxPercent = parseFloat($('input#service-tax').val()).toFixed(2);
-        if(serviceTaxPercent>0) {
+        if(vatPercent>0) {
+            info.taxes.list.push({
+                name: 'VAT',
+                percent: vatPercent+'%',
+                amount: $('p.vat-amount').html()
+            });
+        }
+
+        if(serviceTaxPercent>0 && billWriter.config.serviceTax.length) {
             info.taxes.list.push({
                 name: 'Service Tax',
                 percent: serviceTaxPercent+'%',
@@ -237,6 +259,8 @@ $(document).ready(function() {
                 amount: $('p.higher-education-cess').html()
             });
         }
+
+        info.taxApplied = info.taxes.list.length;
 
         info.invoiceType = $('input[type="radio"][name="invoiceType"]:checked').val();
 
@@ -264,11 +288,14 @@ $(document).ready(function() {
         billWriter.config.contactNumber = utils.getCookie(COMPANY_PHONE);
         billWriter.config.address = utils.getCookie(COMPANY_ADDRESS);
         billWriter.config.tin = utils.getCookie(COMPANY_TIN);
+        billWriter.config.serviceTax = utils.getCookie(COMPANY_SERVICE_TAX);
 
         $('#company-name').val(billWriter.config.companyName);
         $('#company-address').val(billWriter.config.address);
         $('#company-tin').val(billWriter.config.tin);
+        $('#company-service-tax-no').val(billWriter.config.serviceTax);
         $('#company-contact').val(billWriter.config.contactNumber);
+        checkServiceTaxApplicability();
     }
 
 }); // END DOCUMENT READY

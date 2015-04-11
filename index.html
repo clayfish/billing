@@ -96,6 +96,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="company-tin" class="col-sm-2 control-label">Service Tax No</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="company-service-tax-no" placeholder="07086947245" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="company-contact" class="col-sm-2 control-label">Phone number</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="company-contact" placeholder="+91 9945 153216" required>
@@ -213,7 +220,7 @@
 
             <legend>Taxes</legend>
             <div class="form-group">
-                <label for="vat" class="col-sm-2 control-label">VAT</label>
+                <label for="vat" class="col-sm-2 control-label">VAT/CST</label>
                 <div class="col-sm-2">
                     <div class="input-group">
                         <input type="text" class="form-control" id="vat" value="12.5" placeholder="VAT (12.5%)">
@@ -225,30 +232,32 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="service-tax" class="col-sm-2 control-label">Service Tax</label>
-                <div class="col-sm-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="service-tax" value="14" placeholder="Service Tax">
-                        <span class="input-group-addon">%</span>
+            <div class="service-tax-group hide">
+                <div class="form-group">
+                    <label for="service-tax" class="col-sm-2 control-label">Service Tax</label>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="service-tax" value="0" placeholder="Service Tax">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-6 col-sm-2">
+                        <p class="form-control-static service-tax-amount">&#8377; 0</p>
                     </div>
                 </div>
-                <div class="col-sm-offset-6 col-sm-2">
-                    <p class="form-control-static service-tax-amount">&#8377; 0</p>
-                </div>
-            </div>
 
-            <div class="service-tax-extras">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Education Cess (2%)</label>
-                    <div class="col-sm-offset-6 col-sm-2">
-                        <p class="form-control-static education-cess">&#8377; 0</p>
+                <div class="service-tax-extras">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Education Cess (2%)</label>
+                        <div class="col-sm-offset-6 col-sm-2">
+                            <p class="form-control-static education-cess">&#8377; 0</p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Higher Education Cess (1%)</label>
-                    <div class="col-sm-offset-6 col-sm-2">
-                        <p class="form-control-static higher-education-cess">&#8377; 0</p>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Higher Education Cess (1%)</label>
+                        <div class="col-sm-offset-6 col-sm-2">
+                            <p class="form-control-static higher-education-cess">&#8377; 0</p>
+                        </div>
                     </div>
                 </div>
             </div>
