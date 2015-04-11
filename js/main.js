@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = true;
+    var devMode = false;
 
     var billGenerated = false;
 
