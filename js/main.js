@@ -27,7 +27,7 @@ $(document).ready(function() {
         } else {
             serviceTaxGroup.addClass('hide');
         }
-    }
+    };
 
     body.on('change', '#company-name', function(e){
         var companyName = $(this).val();

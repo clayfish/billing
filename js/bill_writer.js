@@ -360,7 +360,7 @@ var writeTerms = function (doc) {
     if(billWriter.config.serviceTax && billWriter.config.serviceTax.length) {
         srNo++;
         doc.content.push({
-            text: srNo+'Service tax number: '+billWriter.config.serviceTax,
+            text: srNo+'. Service tax number: '+billWriter.config.serviceTax,
             style: 'term'
         });
     }
@@ -368,7 +368,7 @@ var writeTerms = function (doc) {
     if(billWriter.config.eAndOe) {
         srNo++;
         doc.content.push({
-            text: srNo+'. '+'E & OE',
+            text: srNo+'. E & OE',
             style: 'term'
         });
     }
