@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = true;
+    var devMode = window.location.href.indexOf("localhost")>0;
 
     var billGenerated = false;
 
@@ -81,7 +81,6 @@ $(document).ready(function() {
     };
 
     var clearForms = function() {
-        // TODO Implement to fix #17
         $('form').each(function() {
             this.reset();
         });
@@ -129,21 +128,12 @@ $(document).ready(function() {
 
     body.on('click', '.new-bill', function(e) {
         if (billGenerated) {
-            // FIXME #17
-            if(devMode) {
-                clearForms();
-            } else {
-                location.reload();
-            }
+            clearForms();
         } else {
             // TODO Replace this confirm with bootbox
             var result = confirm("This bill has not been generated. Do you still want to continue?");
             if(result) {
-                if(devMode) {
-                    clearForms();
-                } else {
-                    location.reload();
-                }
+                clearForms();
             }
         }
     });
