@@ -2,11 +2,11 @@
 var billWriter = {
     version: '0.1.0',
     config: {
-        companyName: "Global Vision",
-        address: "A83, Paryavaran Complex, IGNOU Road, Saidulajab, New Delhi-30",
-        tin: "07086947245",
+        companyName: "",
+        address: "",
+        tin: "",
         serviceTax: '',
-        contactNumber: '+91 9873 593229',
+        contactNumber: '',
         terms: ["Goods once sold cannot be taken back.",
             "Interest @18% pa chargeable on bills unpaid for more than 15 days.",
             "Dispute will be under Delhi jurisdiction.",
@@ -167,10 +167,13 @@ var generateBillHeader = function (doc, info) {
         text: billWriter.config.address,
         style: 'address'
     });
-    doc.content.push({
-        text: 'TIN: ' + billWriter.config.tin,
-        style: 'address'
-    });
+
+    if(billWriter.config.tin && billWriter.config.tin.length) {
+        doc.content.push({
+            text: 'TIN: ' + billWriter.config.tin,
+            style: 'address'
+        });
+    }
     return insertLine(doc);
 };
 
@@ -195,7 +198,7 @@ var writeCustomerInfo = function (doc, info) {
     if (billWriter.config.blank) {
         doc = writeBlankCustomerInfo();
     } else {
-        doc.content.push({
+        var customerInfoBlock = {
             alignment: 'justify',
             columns: [{
                 text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate()
@@ -204,10 +207,16 @@ var writeCustomerInfo = function (doc, info) {
                 bold: true
             }, {
                 text: info.customer.address
-            }, {
-                text: "TIN/PAN: " + info.customer.pan
             }]]
-        });
+        };
+
+        if(info.customer.pan && info.customer.pan.length) {
+            customerInfoBlock.columns[1].push({
+                text: "TIN/PAN: " + info.customer.pan
+            });
+        }
+
+        doc.content.push(customerInfoBlock);
     }
 
     return insertLine(doc);

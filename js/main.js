@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var body = $('body');
-    var devMode = false;
+    var devMode = true;
 
     var billGenerated = false;
 
@@ -15,7 +15,8 @@ $(document).ready(function() {
     var DEFAULT_COOKIE_LIFE = 30;
 
     var getNumber = function(str) {
-        return parseFloat(str.replace('₹', '').trim());
+        str = str.replace('₹', '').trim();
+        return str.length? parseFloat(str.replace('₹', '').trim()) : 0;
     };
 
     body.find('span.current-year').html(new Date().getFullYear());
@@ -27,6 +28,67 @@ $(document).ready(function() {
         } else {
             serviceTaxGroup.addClass('hide');
         }
+    };
+
+    var updateItemTotal = function() {
+        var total = 0;
+        $('.items .item').each(function() {
+            total = total + getNumber($(this).find('.item-row-price').html());
+        });
+        total = total.toFixed(2);
+        $('.item-total').html('&#8377; '+total);
+    };
+
+    var updateDiscountTotal = function() {
+        var percentageDiscount = getNumber($('input#discount').val());
+        if(percentageDiscount>0) {
+            var itemTotal = getNumber($('.item-total').html());
+            var discountAmount = itemTotal*percentageDiscount/100;
+            discountAmount = discountAmount.toFixed(2);
+            $('.discount-amount').html('-&#8377; '+ discountAmount);
+            $('.discount-total').html('&#8377; '+(itemTotal-discountAmount).toFixed(2));
+        } else {
+            $('.discount-amount').html('-&#8377; 0');
+            $('.discount-total').html($('.item-total').html());
+        }
+    };
+
+    var updateTotalPayable = function() {
+        var totalAmount = getNumber($('.discount-total').html());
+        var vatAmount = totalAmount*$('input#vat').val()/100;
+        var serviceTaxAmount = totalAmount*$('input#service-tax').val()/100;
+        var educationCess = serviceTaxAmount/50;
+        var higherEducationCess = educationCess/2;
+        var totalAmountWithTax = totalAmount+vatAmount+serviceTaxAmount+educationCess+higherEducationCess;
+
+        vatAmount = vatAmount.toFixed(2);
+        serviceTaxAmount = serviceTaxAmount.toFixed(2);
+        educationCess = educationCess.toFixed(2);
+        higherEducationCess = higherEducationCess.toFixed(2);
+        totalAmountWithTax = totalAmountWithTax.toFixed(2);
+
+        $('.vat-amount').html('&#8377; '+ vatAmount);
+        $('.service-tax-amount').html('&#8377; '+ serviceTaxAmount);
+        $('.education-cess').html('&#8377; '+ educationCess);
+        $('.higher-education-cess').html('&#8377; '+ higherEducationCess);
+        $('.total-with-tax').html('&#8377; '+totalAmountWithTax);
+    };
+
+    var updateTotals = function() {
+        updateItemTotal();
+        updateDiscountTotal();
+        updateTotalPayable();
+    };
+
+    var clearForms = function() {
+        // TODO Implement to fix #17
+        $('form').each(function() {
+            this.reset();
+        });
+
+        $('form .row.item').remove();
+        $('.add-item').click();
+        updateTotals();
     };
 
     body.on('change', '#company-name', function(e){
@@ -67,12 +129,21 @@ $(document).ready(function() {
 
     body.on('click', '.new-bill', function(e) {
         if (billGenerated) {
-            location.reload();
+            // FIXME #17
+            if(devMode) {
+                clearForms();
+            } else {
+                location.reload();
+            }
         } else {
             // TODO Replace this confirm with bootbox
             var result = confirm("This bill has not been generated. Do you still want to continue?");
             if(result) {
-                location.reload();
+                if(devMode) {
+                    clearForms();
+                } else {
+                    location.reload();
+                }
             }
         }
     });
@@ -125,56 +196,6 @@ $(document).ready(function() {
         }
         updateTotalPayable();
     });
-
-    var updateTotals = function() {
-        updateItemTotal();
-        updateDiscountTotal();
-        updateTotalPayable();
-    };
-
-    var updateItemTotal = function() {
-        var total = 0;
-        $('.items .item').each(function() {
-            total = total + getNumber($(this).find('.item-row-price').html());
-        });
-        total = total.toFixed(2);
-        $('.item-total').html('&#8377; '+total);
-    };
-
-    var updateDiscountTotal = function() {
-        var percentageDiscount = getNumber($('input#discount').val());
-        if(percentageDiscount>0) {
-            var itemTotal = getNumber($('.item-total').html());
-            var discountAmount = itemTotal*percentageDiscount/100;
-            discountAmount = discountAmount.toFixed(2);
-            $('.discount-amount').html('-&#8377; '+ discountAmount);
-            $('.discount-total').html('&#8377; '+(itemTotal-discountAmount).toFixed(2));
-        } else {
-            $('.discount-amount').html('-&#8377; 0');
-            $('.discount-total').html($('.item-total').html());
-        }
-    };
-
-    var updateTotalPayable = function() {
-        var totalAmount = getNumber($('.discount-total').html());
-        var vatAmount = totalAmount*$('input#vat').val()/100;
-        var serviceTaxAmount = totalAmount*$('input#service-tax').val()/100;
-        var educationCess = serviceTaxAmount/50;
-        var higherEducationCess = educationCess/2;
-        var totalAmountWithTax = totalAmount+vatAmount+serviceTaxAmount+educationCess+higherEducationCess;
-
-        vatAmount = vatAmount.toFixed(2);
-        serviceTaxAmount = serviceTaxAmount.toFixed(2);
-        educationCess = educationCess.toFixed(2);
-        higherEducationCess = higherEducationCess.toFixed(2);
-        totalAmountWithTax = totalAmountWithTax.toFixed(2);
-
-        $('.vat-amount').html('&#8377; '+ vatAmount);
-        $('.service-tax-amount').html('&#8377; '+ serviceTaxAmount);
-        $('.education-cess').html('&#8377; '+ educationCess);
-        $('.higher-education-cess').html('&#8377; '+ higherEducationCess);
-        $('.total-with-tax').html('&#8377; '+totalAmountWithTax);
-    };
 
     body.on('click', '.generate-bill', function() {
         billGenerated = true;
