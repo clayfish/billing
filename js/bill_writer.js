@@ -10,7 +10,7 @@ var billWriter = {
         terms: ["Goods once sold cannot be taken back.",
             "Interest @18% pa chargeable on bills unpaid for more than 15 days.",
             "Dispute will be under Delhi jurisdiction.",
-            "This bill is not valid without authority signatures."],
+            "This is a computer generated invoice and is not valid without authority signatures."],
         eAndOe: true,
         blank: false
     },
