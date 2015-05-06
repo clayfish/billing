@@ -309,4 +309,5 @@ $(document).ready(function() {
         checkServiceTaxApplicability();
     }
 
+
 }); // END DOCUMENT READY
