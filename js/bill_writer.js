@@ -97,10 +97,12 @@ var billWriter = {
         return doc;
     },
 
-    download: function (doc, fileName) {
+    download: function (doc, fileName, billDate) {
         if (fileName === undefined || fileName == null) {
-            var date = new Date();
-            fileName = "bill_" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+            if(billDate === undefined) {
+                billDate = new Date();
+            }
+            fileName = "bill_" + billDate.getFullYear() + (billDate.getMonth() + 1) + billDate.getDate();
         }
 
         pdfMake.createPdf(doc).download(fileName);
@@ -201,7 +203,7 @@ var writeCustomerInfo = function (doc, info) {
         var customerInfoBlock = {
             alignment: 'justify',
             columns: [{
-                text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate()
+                text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate(info.billDate)
             }, [{
                 text: info.customer.name,
                 bold: true

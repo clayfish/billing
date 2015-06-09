@@ -192,7 +192,7 @@ $(document).ready(function() {
         var info = createFormDataObject();
         billWriter.config.blank = false;
         var doc = billWriter.generateBill(info);
-        billWriter.download(doc);
+        billWriter.download(doc, undefined, info.billDate);
     });
 
     // TODO #6 Re-enable this button
@@ -205,6 +205,14 @@ $(document).ready(function() {
 
     var createFormDataObject = function() {
         var info = {};
+
+        info.billDate = $('input#billDate').val();
+        if(info.billDate) {
+            info.billDate = new Date(info.billDate);
+        } else {
+            info.billDate = new Date();
+        }
+
         info.billNo = $('input#billNo').val();
         if(info.billNo == '') {
             var now = new Date();

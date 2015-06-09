@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Server Time</title>
+</head>
+<body>
+<p><b>Current Server Time:</b> <span id="server-time"></span></p>
+
+<script type="text/javascript">
+
+    // Current Server Time script (SSI or PHP)- By JavaScriptKit.com (http://www.javascriptkit.com)
+    // For this and over 400+ free scripts, visit JavaScript Kit- http://www.javascriptkit.com/
+    // This notice must stay intact for use.
+
+    //Depending on whether your page supports SSI (.shtml) or PHP (.php), UNCOMMENT the line below your page supports and COMMENT the one it does not:
+    //Default is that SSI method is uncommented, and PHP is commented:
+
+//    var currentTime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->'; //SSI method of getting server date
+    var currentTime = '<? print date("F d, Y H:i:s", time())?>'; //PHP method of getting server date
+
+    ///////////Stop editting here/////////////////////////////////
+
+    var monthArray=["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var serverDate=new Date(currentTime);
+
+    function padlength(what){
+        return (what.toString().length==1)? "0"+what : what;
+    }
+
+    function displayTime(){
+        serverDate.setSeconds(serverDate.getSeconds()+1);
+        var dateString=monthArray[serverDate.getMonth()]+" "+padlength(serverDate.getDate())+", "+serverDate.getFullYear();
+        var timeString=padlength(serverDate.getHours())+":"+padlength(serverDate.getMinutes())+":"+padlength(serverDate.getSeconds());
+        document.getElementById("server-time").innerHTML=dateString+" "+timeString;
+    }
+
+    window.onload=function(){
+        setInterval("displayTime()", 1000)
+    }
+
+</script>
+</body>
+</html>
