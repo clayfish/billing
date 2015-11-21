@@ -1,3 +1,18 @@
+/*
+ Copyright 2015 ClayFish Technologies LLP
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 var billWriter = {
     version: '0.1.0',
@@ -22,12 +37,12 @@ var billWriter = {
 
         pdfMake.fonts = {
             Ubuntu: {
-                    normal: 'Ubuntu-L.ttf',
-                    bold: 'Ubuntu-B.ttf',
-                    italics: 'Ubuntu-LI.ttf',
-                    bolditalics: 'Ubuntu-BI.ttf'
-                }
-            };
+                normal: 'Ubuntu-L.ttf',
+                bold: 'Ubuntu-B.ttf',
+                italics: 'Ubuntu-LI.ttf',
+                bolditalics: 'Ubuntu-BI.ttf'
+            }
+        };
 
         var doc = {
             content: [],
@@ -99,7 +114,7 @@ var billWriter = {
 
     download: function (doc, fileName, billDate) {
         if (fileName === undefined || fileName == null) {
-            if(billDate === undefined) {
+            if (billDate === undefined) {
                 billDate = new Date();
             }
             fileName = "bill_" + billDate.getFullYear() + (billDate.getMonth() + 1) + billDate.getDate();
@@ -170,7 +185,7 @@ var generateBillHeader = function (doc, info) {
         style: 'address'
     });
 
-    if(billWriter.config.tin && billWriter.config.tin.length) {
+    if (billWriter.config.tin && billWriter.config.tin.length) {
         doc.content.push({
             text: 'TIN: ' + billWriter.config.tin,
             style: 'address'
@@ -203,7 +218,7 @@ var writeCustomerInfo = function (doc, info) {
         var customerInfoBlock = {
             alignment: 'justify',
             columns: [{
-                text: 'Invoice: '+info.billNo + '\nDate: '+ utils.getDate(info.billDate)
+                text: 'Invoice: ' + info.billNo + '\nDate: ' + utils.getDate(info.billDate)
             }, [{
                 text: info.customer.name,
                 bold: true
@@ -212,7 +227,7 @@ var writeCustomerInfo = function (doc, info) {
             }]]
         };
 
-        if(info.customer.pan && info.customer.pan.length) {
+        if (info.customer.pan && info.customer.pan.length) {
             customerInfoBlock.columns[1].push({
                 text: "TIN/PAN: " + info.customer.pan
             });
@@ -274,7 +289,7 @@ var writeItems = function (doc, info) {
 
 
         // Incorporating discount
-        if(info.discount.available) {
+        if (info.discount.available) {
             tableObject.table.body.push([
                 {
                     colSpan: 4,
@@ -289,7 +304,7 @@ var writeItems = function (doc, info) {
 
             tableObject.table.body.push([
                 {
-                    text: 'Discount ('+info.discount.percent+')',
+                    text: 'Discount (' + info.discount.percent + ')',
                     style: 'discount',
                     colSpan: 4
                 }, {}, {}, {},
@@ -324,8 +339,8 @@ var writeItems = function (doc, info) {
         }
 
         // Including taxes
-        if(info.taxApplied) {
-            for(i in info.taxes.list) {
+        if (info.taxApplied) {
+            for (i in info.taxes.list) {
                 tableObject.table.body.push([{
                     text: info.taxes.list[i].name + ' (' + info.taxes.list[i].percent + ')',
                     style: 'tax',
@@ -360,26 +375,26 @@ var writeTerms = function (doc) {
     });
 
     var srNo;
-    for(var i in billWriter.config.terms) {
-        srNo = parseInt(i)+1;
+    for (var i in billWriter.config.terms) {
+        srNo = parseInt(i) + 1;
         doc.content.push({
-            text: srNo+'. '+billWriter.config.terms[i],
+            text: srNo + '. ' + billWriter.config.terms[i],
             style: 'term'
         });
     }
 
-    if(billWriter.config.serviceTax && billWriter.config.serviceTax.length) {
+    if (billWriter.config.serviceTax && billWriter.config.serviceTax.length) {
         srNo++;
         doc.content.push({
-            text: srNo+'. Service tax number: '+billWriter.config.serviceTax,
+            text: srNo + '. Service tax number: ' + billWriter.config.serviceTax,
             style: 'term'
         });
     }
 
-    if(billWriter.config.eAndOe) {
+    if (billWriter.config.eAndOe) {
         srNo++;
         doc.content.push({
-            text: srNo+'. E & OE',
+            text: srNo + '. E & OE',
             style: 'term'
         });
     }
@@ -388,7 +403,7 @@ var writeTerms = function (doc) {
 
 var writeFooter = function (doc) {
     doc.content.push({
-        text: 'For '+billWriter.config.companyName,
+        text: 'For ' + billWriter.config.companyName,
         style: 'signature'
     });
     return doc;

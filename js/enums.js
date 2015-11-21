@@ -1,3 +1,19 @@
+/*
+ Copyright 2015 ClayFish Technologies LLP
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 MONTH = {
     JANUARY: {
         index: 0,
@@ -71,9 +87,9 @@ MONTH = {
         shortName: "Dec",
         intDisplay: "12"
     },
-    find: function(intMonth) {
-        for(var property in MONTH) {
-            if(MONTH.hasOwnProperty(property) && typeof MONTH[property] === 'object' && MONTH[property].index == intMonth) {
+    find: function (intMonth) {
+        for (var property in MONTH) {
+            if (MONTH.hasOwnProperty(property) && typeof MONTH[property] === 'object' && MONTH[property].index == intMonth) {
                 return MONTH[property];
             }
         }
@@ -123,9 +139,9 @@ DAY = {
         shortName: "Sat",
         intDisplay: "6"
     },
-    find: function(intDay) {
-        for(var property in DAY) {
-            if(DAY.hasOwnProperty(property) && typeof DAY[property] === 'object' && DAY[property].index == intDay) {
+    find: function (intDay) {
+        for (var property in DAY) {
+            if (DAY.hasOwnProperty(property) && typeof DAY[property] === 'object' && DAY[property].index == intDay) {
                 return DAY[property];
             }
         }
@@ -133,19 +149,19 @@ DAY = {
 };
 
 DARK_COLOR = {
-    BLUE : {
+    BLUE: {
         index: 0,
         hexCode: "1BA1F8"
     },
-    RED : {
+    RED: {
         index: 1,
         hexCode: "f80a09"
     },
-    GREEN : {
+    GREEN: {
         index: 2,
         hexCode: "29b038"
     },
-    ORANGE : {
+    ORANGE: {
         index: 3,
         hexCode: "f87e0e"
     },
@@ -162,10 +178,10 @@ DARK_COLOR = {
         hexCode: "9332b0"
     },
 
-    random: function() {
-        var randomIndex = utils.getRandomIntInInterval(0,6);
-        for(var i in DARK_COLOR) {
-            if(typeof DARK_COLOR[i] !== 'function' && DARK_COLOR[i].index == randomIndex) {
+    random: function () {
+        var randomIndex = utils.getRandomIntInInterval(0, 6);
+        for (var i in DARK_COLOR) {
+            if (typeof DARK_COLOR[i] !== 'function' && DARK_COLOR[i].index == randomIndex) {
                 return DARK_COLOR[i];
             }
         }

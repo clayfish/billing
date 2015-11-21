@@ -1,3 +1,19 @@
+<!--
+Copyright 2015 ClayFish Technologies LLP
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,22 +52,23 @@
                     <!--<a target="_blank" href="http://nowfloats.com/boost/applinks?id=home">SERVICES</a>-->
                     <!--</li>-->
                     <!--<li class="dropdown">-->
-                        <!--<a class="scroll" href="#product">PRODUCT</a>-->
-                        <!--<ul class="dropdown-menu">-->
-                        <!--<li class=""><a href="#product">PRODUCT</a></li>-->
-                        <!--<li class=""><a href="#features">FEATURES</a></li>-->
-                        <!--<li><a href="#plans">PLANS</a></li>-->
-                        <!--</ul>-->
+                    <!--<a class="scroll" href="#product">PRODUCT</a>-->
+                    <!--<ul class="dropdown-menu">-->
+                    <!--<li class=""><a href="#product">PRODUCT</a></li>-->
+                    <!--<li class=""><a href="#features">FEATURES</a></li>-->
+                    <!--<li><a href="#plans">PLANS</a></li>-->
+                    <!--</ul>-->
                     <!--</li>-->
                     <!--<li class="dropdown">-->
-                        <!--<a class="scroll" href="#industries">CLIENTS</a>-->
-                        <!--<ul class="dropdown-menu">-->
-                        <!--<li><a href="#testimonials">TESTIMONIAL</a></li>-->
-                        <!--<li><a href="#homePageCarousel">ALL CUSTOMERS</a></li>-->
-                        <!--</ul>-->
+                    <!--<a class="scroll" href="#industries">CLIENTS</a>-->
+                    <!--<ul class="dropdown-menu">-->
+                    <!--<li><a href="#testimonials">TESTIMONIAL</a></li>-->
+                    <!--<li><a href="#homePageCarousel">ALL CUSTOMERS</a></li>-->
+                    <!--</ul>-->
                     <!--</li>-->
                     <li class="">
-                        <a class="" style="color: #a94442" target="_blank" href="https://github.com/Nishi-Inc/billing/issues">Report Issue</a>
+                        <a class="" style="color: #a94442" target="_blank"
+                           href="https://github.com/Nishi-Inc/billing/issues">Report Issue</a>
                         <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">ABOUT US</a>-->
                         <!--<ul class="dropdown-menu">-->
                         <!--<li><a href="#about-us">MISSION</a></li>-->
@@ -72,9 +89,11 @@
         <form class="form-horizontal" action="#" method="post" role="form">
             <legend>Seller</legend>
             <span class="btn btn-small btn-info change-seller-info">Edit Seller Info</span>
+
             <div class="company-info hide">
                 <div class="form-group">
                     <label for="company-name" class="col-sm-2 control-label">Company name</label>
+
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="company-name" placeholder="Apple Inc" required>
                     </div>
@@ -82,13 +101,16 @@
 
                 <div class="form-group">
                     <label for="company-address" class="col-sm-2 control-label">Address</label>
+
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="company-address" placeholder="Cupertino, California" required>
+                        <input type="text" class="form-control" id="company-address" placeholder="Cupertino, California"
+                               required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="company-tin" class="col-sm-2 control-label">TIN</label>
+
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="company-tin" placeholder="07086947245" required>
                     </div>
@@ -96,29 +118,34 @@
 
                 <div class="form-group">
                     <label for="company-tin" class="col-sm-2 control-label">Service Tax No</label>
+
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="company-service-tax-no" placeholder="07086947245" required>
+                        <input type="text" class="form-control" id="company-service-tax-no" placeholder="07086947245"
+                               required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="company-contact" class="col-sm-2 control-label">Phone number</label>
+
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="company-contact" placeholder="+91 9945 153216" required>
+                        <input type="text" class="form-control" id="company-contact" placeholder="+91 9945 153216"
+                               required>
                     </div>
                 </div>
             </div>
 
             <legend>Configuration</legend>
             <div class="form-group">
-                <label for="billNo" class="col-sm-2 control-label">Invoice Type</label>
+                <label for="invoice-type-radio" class="col-sm-2 control-label">Invoice Type</label>
+
                 <div class="col-sm-10">
                     <div class="checkbox">
                         <label>
                             <input type="radio" name="invoiceType" value="Tax"> Tax invoice
                         </label>
                         <label>
-                            <input type="radio" name="invoiceType" value="Retail" checked> Retail invoice
+                            <input type="radio" id="invoice-type-radio" name="invoiceType" value="Retail" checked> Retail invoice
                         </label>
                     </div>
                 </div>
@@ -127,6 +154,7 @@
             <legend>Purchaser</legend>
             <div class="form-group">
                 <label for="billNo" class="col-sm-2 control-label">Date</label>
+
                 <div class="col-sm-10">
                     <input type="date" class="form-control" id="billDate" placeholder="Leave blank for today" required>
                 </div>
@@ -134,6 +162,7 @@
 
             <div class="form-group">
                 <label for="billNo" class="col-sm-2 control-label">Invoice Number</label>
+
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="billNo" placeholder="23341" required>
                 </div>
@@ -141,6 +170,7 @@
 
             <div class="form-group">
                 <label for="purchaser" class="col-sm-2 control-label">Name</label>
+
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="purchaser" placeholder="Mr John Doe" required>
                 </div>
@@ -148,13 +178,16 @@
 
             <div class="form-group">
                 <label for="purchaser-address" class="col-sm-2 control-label">Address</label>
+
                 <div class="col-sm-10">
-                    <textarea rows="3" class="form-control" id="purchaser-address" placeholder="Purchaser's address"></textarea>
+                    <textarea rows="3" class="form-control" id="purchaser-address"
+                              placeholder="Purchaser's address"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="purchaser-tin" class="col-sm-2 control-label">TIN/PAN</label>
+
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="purchaser-tin" placeholder="Purchaser's TIN/PAN">
                 </div>
@@ -178,11 +211,11 @@
                     <div class="col-sm-2">
                         <div class="input-group">
                             <span class="input-group-addon">&#8377;</span>
-                            <input class="form-control item-price" type="text">
+                            <input class="form-control item-price" type="number">
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <input class="form-control item-quantity" value="1" type="text">
+                        <input class="form-control item-quantity" value="1" type="number">
                     </div>
                     <div class="col-sm-2">
                         <p class="form-control-static item-row-price">&#8377; 0</p>
@@ -198,6 +231,7 @@
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">Total</label>
+
                 <div class="col-sm-offset-8 col-sm-2">
                     <p class="form-control-static item-total">&#8377; 0</p>
                 </div>
@@ -206,9 +240,11 @@
             <legend>Discount</legend>
             <div class="form-group">
                 <label for="discount" class="col-sm-2 control-label">Percentage</label>
+
                 <div class="col-sm-2">
                     <div class="input-group">
-                        <input type="number" class="form-control" id="discount" value="0" placeholder="Discount" max="100" min="0">
+                        <input type="number" class="form-control" id="discount" value="0" placeholder="Discount"
+                               max="100" min="0">
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
@@ -219,6 +255,7 @@
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">Total</label>
+
                 <div class="col-sm-offset-8 col-sm-2">
                     <p class="form-control-static discount-total">&#8377; 0</p>
                 </div>
@@ -226,10 +263,26 @@
 
             <legend>Taxes</legend>
             <div class="form-group">
-                <label for="vat" class="col-sm-2 control-label">VAT/CST</label>
+                <label for="tax-type-check" class="col-sm-2 control-label">Tax Type</label>
+
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="taxType" value="VAT"> VAT
+                        </label>
+                        <label>
+                            <input type="radio" id="tax-type-check" name="taxType" value="CST" checked> CST
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="vat" class="col-sm-2 control-label">Percentage</label>
+
                 <div class="col-sm-2">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="vat" value="12.5" placeholder="VAT (12.5%)">
+                        <input type="number" class="form-control" id="vat" value="12.5" placeholder="VAT (12.5%)" step="0.1">
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
@@ -241,9 +294,11 @@
             <div class="service-tax-group hide">
                 <div class="form-group">
                     <label for="service-tax" class="col-sm-2 control-label">Service Tax</label>
+
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="service-tax" value="0" placeholder="Service Tax">
+                            <input type="number" class="form-control" id="service-tax" value="0"
+                                   placeholder="Service Tax" step="0.1">
                             <span class="input-group-addon">%</span>
                         </div>
                     </div>
@@ -255,12 +310,14 @@
                 <div class="service-tax-extras">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Education Cess (2%)</label>
+
                         <div class="col-sm-offset-6 col-sm-2">
                             <p class="form-control-static education-cess">&#8377; 0</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Higher Education Cess (1%)</label>
+
                         <div class="col-sm-offset-6 col-sm-2">
                             <p class="form-control-static higher-education-cess">&#8377; 0</p>
                         </div>
@@ -269,22 +326,23 @@
             </div>
 
             <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">Total</label>-->
-                <!--<div class="col-sm-offset-8 col-sm-2">-->
-                    <!--<p class="form-control-static total-with-tax">&#8377; 0</p>-->
-                <!--</div>-->
+            <!--<label class="col-sm-2 control-label">Total</label>-->
+            <!--<div class="col-sm-offset-8 col-sm-2">-->
+            <!--<p class="form-control-static total-with-tax">&#8377; 0</p>-->
+            <!--</div>-->
             <!--</div>-->
 
             <hr/>
             <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">Round off</label>-->
-                <!--<div class="col-sm-offset-8 col-sm-2">-->
-                    <!--<p class="form-control-static round-off">+ &#8377; 0.00</p>-->
-                <!--</div>-->
+            <!--<label class="col-sm-2 control-label">Round off</label>-->
+            <!--<div class="col-sm-offset-8 col-sm-2">-->
+            <!--<p class="form-control-static round-off">+ &#8377; 0.00</p>-->
+            <!--</div>-->
             <!--</div>-->
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">Total payable</label>
+
                 <div class="col-sm-offset-8 col-sm-2">
                     <p class="form-control-static total-with-tax">&#8377; 0</p>
                 </div>
@@ -296,7 +354,9 @@
             <div class="col-sm-10">
                 <div class="btn-group-lg">
                     <button class="btn btn-success generate-bill">Generate Bill</button>
-                    <button class="btn disabled hide generate-blank-bill" title="Blank bill is currently disabled">Generate Blank Bill</button>
+                    <button class="btn disabled hide generate-blank-bill" title="Blank bill is currently disabled">
+                        Generate Blank Bill
+                    </button>
                     <button class="btn btn-primary new-bill">New Bill</button>
                 </div>
             </div>
@@ -305,7 +365,7 @@
 
     <footer>
         <hr/>
-        &#169; <span class="current-year">2015</span> Nishi Inc. All rights reserved.
+        &#169; <span class="current-year">2015</span> ClayFish Technologies. All rights reserved.
     </footer>
 </div>
 
@@ -317,11 +377,11 @@
     <div class="col-sm-2">
         <div class="input-group">
             <span class="input-group-addon">&#8377;</span>
-            <input class="form-control item-price" type="text">
+            <input class="form-control item-price" type="number">
         </div>
     </div>
     <div class="col-sm-2">
-        <input class="form-control item-quantity" value="1" type="text">
+        <input class="form-control item-quantity" value="1" type="number">
     </div>
     <div class="col-sm-2">
         <p class="form-control-static item-row-price">&#8377; 0</p>

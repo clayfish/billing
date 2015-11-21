@@ -1,7 +1,22 @@
+/*
+ Copyright 2015 ClayFish Technologies LLP
 
-$(document).ready(function() {
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+$(document).ready(function () {
     var body = $('body');
-    var devMode = window.location.href.indexOf("localhost")>0;
+    var devMode = window.location.href.indexOf("localhost") > 0;
 
     var billGenerated = false;
 
@@ -14,52 +29,52 @@ $(document).ready(function() {
     // In days
     var DEFAULT_COOKIE_LIFE = 30;
 
-    var getNumber = function(str) {
+    var getNumber = function (str) {
         str = str.replace('₹', '').trim();
-        return str.length? parseFloat(str.replace('₹', '').trim()) : 0;
+        return str.length ? parseFloat(str.replace('₹', '').trim()) : 0;
     };
 
     body.find('span.current-year').html(new Date().getFullYear());
 
-    var checkServiceTaxApplicability = function() {
+    var checkServiceTaxApplicability = function () {
         var serviceTaxGroup = $('.service-tax-group');
-        if($('#company-service-tax-no').val().length) {
+        if ($('#company-service-tax-no').val().length) {
             serviceTaxGroup.removeClass('hide');
         } else {
             serviceTaxGroup.addClass('hide');
         }
     };
 
-    var updateItemTotal = function() {
+    var updateItemTotal = function () {
         var total = 0;
-        $('.items .item').each(function() {
+        $('.items .item').each(function () {
             total = total + getNumber($(this).find('.item-row-price').html());
         });
         total = total.toFixed(2);
-        $('.item-total').html('&#8377; '+total);
+        $('.item-total').html('&#8377; ' + total);
     };
 
-    var updateDiscountTotal = function() {
+    var updateDiscountTotal = function () {
         var percentageDiscount = getNumber($('input#discount').val());
-        if(percentageDiscount>0) {
+        if (percentageDiscount > 0) {
             var itemTotal = getNumber($('.item-total').html());
-            var discountAmount = itemTotal*percentageDiscount/100;
+            var discountAmount = itemTotal * percentageDiscount / 100;
             discountAmount = discountAmount.toFixed(2);
-            $('.discount-amount').html('-&#8377; '+ discountAmount);
-            $('.discount-total').html('&#8377; '+(itemTotal-discountAmount).toFixed(2));
+            $('.discount-amount').html('-&#8377; ' + discountAmount);
+            $('.discount-total').html('&#8377; ' + (itemTotal - discountAmount).toFixed(2));
         } else {
             $('.discount-amount').html('-&#8377; 0');
             $('.discount-total').html($('.item-total').html());
         }
     };
 
-    var updateTotalPayable = function() {
+    var updateTotalPayable = function () {
         var totalAmount = getNumber($('.discount-total').html());
-        var vatAmount = totalAmount*$('input#vat').val()/100;
-        var serviceTaxAmount = totalAmount*$('input#service-tax').val()/100;
-        var educationCess = serviceTaxAmount/50;
-        var higherEducationCess = educationCess/2;
-        var totalAmountWithTax = totalAmount+vatAmount+serviceTaxAmount+educationCess+higherEducationCess;
+        var vatAmount = totalAmount * $('input#vat').val() / 100;
+        var serviceTaxAmount = totalAmount * $('input#service-tax').val() / 100;
+        var educationCess = serviceTaxAmount / 50;
+        var higherEducationCess = educationCess / 2;
+        var totalAmountWithTax = totalAmount + vatAmount + serviceTaxAmount + educationCess + higherEducationCess;
 
         vatAmount = vatAmount.toFixed(2);
         serviceTaxAmount = serviceTaxAmount.toFixed(2);
@@ -67,21 +82,21 @@ $(document).ready(function() {
         higherEducationCess = higherEducationCess.toFixed(2);
         totalAmountWithTax = totalAmountWithTax.toFixed(2);
 
-        $('.vat-amount').html('&#8377; '+ vatAmount);
-        $('.service-tax-amount').html('&#8377; '+ serviceTaxAmount);
-        $('.education-cess').html('&#8377; '+ educationCess);
-        $('.higher-education-cess').html('&#8377; '+ higherEducationCess);
-        $('.total-with-tax').html('&#8377; '+totalAmountWithTax);
+        $('.vat-amount').html('&#8377; ' + vatAmount);
+        $('.service-tax-amount').html('&#8377; ' + serviceTaxAmount);
+        $('.education-cess').html('&#8377; ' + educationCess);
+        $('.higher-education-cess').html('&#8377; ' + higherEducationCess);
+        $('.total-with-tax').html('&#8377; ' + totalAmountWithTax);
     };
 
-    var updateTotals = function() {
+    var updateTotals = function () {
         updateItemTotal();
         updateDiscountTotal();
         updateTotalPayable();
     };
 
-    var clearForms = function() {
-        $('form').each(function() {
+    var clearForms = function () {
+        $('form').each(function () {
             this.reset();
         });
 
@@ -90,56 +105,56 @@ $(document).ready(function() {
         updateTotals();
     };
 
-    body.on('change', '#company-name', function(e){
+    body.on('change', '#company-name', function (e) {
         var companyName = $(this).val();
         utils.setCookie(COMPANY_NAME, companyName, DEFAULT_COOKIE_LIFE);
         billWriter.config.companyName = companyName;
     });
 
-    body.on('change', '#company-address', function(e){
+    body.on('change', '#company-address', function (e) {
         var companyAddress = $(this).val();
         utils.setCookie(COMPANY_ADDRESS, companyAddress, DEFAULT_COOKIE_LIFE);
         billWriter.config.address = companyAddress;
     });
 
-    body.on('change', '#company-tin', function(e){
+    body.on('change', '#company-tin', function (e) {
         var companyTin = $(this).val();
         utils.setCookie(COMPANY_TIN, companyTin, DEFAULT_COOKIE_LIFE);
         billWriter.config.tin = companyTin;
     });
 
-    body.on('change', '#company-service-tax-no', function(e){
+    body.on('change', '#company-service-tax-no', function (e) {
         var companyServiceTax = $(this).val();
         utils.setCookie(COMPANY_SERVICE_TAX, companyServiceTax, DEFAULT_COOKIE_LIFE);
         billWriter.config.serviceTax = companyServiceTax;
         checkServiceTaxApplicability();
     });
 
-    body.on('change', '#company-contact', function(e){
+    body.on('change', '#company-contact', function (e) {
         var companyPhone = $(this).val();
         utils.setCookie(COMPANY_PHONE, companyPhone, DEFAULT_COOKIE_LIFE);
         billWriter.config.contactNumber = companyPhone;
     });
 
-    body.on('click', '.change-seller-info', function(e){
+    body.on('click', '.change-seller-info', function (e) {
         $('.company-info').removeClass('hide');
         $(this).addClass('hide');
     });
 
-    body.on('click', '.new-bill', function(e) {
+    body.on('click', '.new-bill', function (e) {
         if (billGenerated) {
             clearForms();
         } else {
             // TODO Replace this confirm with bootbox
             var result = confirm("This bill has not been generated. Do you still want to continue?");
-            if(result) {
+            if (result) {
                 clearForms();
             }
         }
     });
 
-    body.on('click', '.add-item', function(e) {
-        var i = $('.items .item').length+1;
+    body.on('click', '.add-item', function (e) {
+        var i = $('.items .item').length + 1;
         var itemElement = $('.item-template').clone();
 
         $(itemElement).removeClass('item-template hide').addClass('item');
@@ -148,17 +163,17 @@ $(document).ready(function() {
         $(itemElement).appendTo('.items');
     });
 
-    body.on('change', '.item-price, .item-quantity', function() {
+    body.on('change', '.item-price, .item-quantity', function () {
         var parent = $(this).closest('.item');
         var price = getNumber($(parent).find('.item-price').val()) * getNumber($(parent).find('.item-quantity').val());
         price = price.toFixed(2);
-        $(parent).find('.item-row-price').html('&#8377; '+ price);
+        $(parent).find('.item-row-price').html('&#8377; ' + price);
         updateTotals();
     });
 
-    body.on('change', 'input#discount', function() {
+    body.on('change', 'input#discount', function () {
         var percentageDiscount = getNumber($(this).val());
-        if(percentageDiscount>100 || percentageDiscount<0) {
+        if (percentageDiscount > 100 || percentageDiscount < 0) {
             $(this).val(0);
         }
 
@@ -166,20 +181,20 @@ $(document).ready(function() {
         updateTotalPayable();
     });
 
-    body.on('change', 'input#vat', function() {
+    body.on('change', 'input#vat', function () {
         var vatPercent = getNumber($(this).val());
-        if(vatPercent>100 || vatPercent<0) {
+        if (vatPercent > 100 || vatPercent < 0) {
             $(this).val(0);
         }
         updateTotalPayable();
     });
 
-    body.on('change', 'input#service-tax', function() {
+    body.on('change', 'input#service-tax', function () {
         var serviceTaxPercent = getNumber($(this).val());
-        if(serviceTaxPercent>100 || serviceTaxPercent<0) {
+        if (serviceTaxPercent > 100 || serviceTaxPercent < 0) {
             $(this).val(0);
         }
-        if($(this).val() == 0) {
+        if ($(this).val() == 0) {
             $('.service-tax-extras').addClass('hide');
         } else {
             $('.service-tax-extras').removeClass('hide');
@@ -187,7 +202,7 @@ $(document).ready(function() {
         updateTotalPayable();
     });
 
-    body.on('click', '.generate-bill', function() {
+    body.on('click', '.generate-bill', function () {
         billGenerated = true;
         var info = createFormDataObject();
         billWriter.config.blank = false;
@@ -203,20 +218,20 @@ $(document).ready(function() {
     //    billWriter.download(doc);
     //});
 
-    var createFormDataObject = function() {
+    var createFormDataObject = function () {
         var info = {};
 
         info.billDate = $('input#billDate').val();
-        if(info.billDate) {
+        if (info.billDate) {
             info.billDate = new Date(info.billDate);
         } else {
             info.billDate = new Date();
         }
 
         info.billNo = $('input#billNo').val();
-        if(info.billNo == '') {
+        if (info.billNo == '') {
             var now = new Date();
-            info.billNo = ''+now.getFullYear()+(now.getMonth()+1)+now.getDate();
+            info.billNo = '' + now.getFullYear() + (now.getMonth() + 1) + now.getDate();
         }
 
         info.customer = {
@@ -229,7 +244,7 @@ $(document).ready(function() {
             total: $('p.item-total').html(),
             list: []
         };
-        $('.items .item').each(function() {
+        $('.items .item').each(function () {
             info.items.list.push({
                 name: $(this).find('input.item-name').val(),
                 price: $(this).find('input.item-price').val(),
@@ -240,8 +255,8 @@ $(document).ready(function() {
 
         var discountPercent = parseFloat($('input#discount').val()).toFixed(2);
         info.discount = {
-            available: discountPercent>0,
-            percent: discountPercent+'%',
+            available: discountPercent > 0,
+            percent: discountPercent + '%',
             amount: $('p.discount-amount').html(),
             totalAfterDiscount: $('p.discount-total').html()
         };
@@ -253,18 +268,19 @@ $(document).ready(function() {
 
         var vatPercent = parseFloat($('input#vat').val()).toFixed(2);
         var serviceTaxPercent = parseFloat($('input#service-tax').val()).toFixed(2);
-        if(vatPercent>0) {
+        if (vatPercent > 0) {
+            var taxName = $('input[type="radio"][name="taxType"]:checked').val();
             info.taxes.list.push({
-                name: 'VAT',
-                percent: vatPercent+'%',
+                name: taxName,
+                percent: vatPercent + '%',
                 amount: $('p.vat-amount').html()
             });
         }
 
-        if(serviceTaxPercent>0 && billWriter.config.serviceTax.length) {
+        if (serviceTaxPercent > 0 && billWriter.config.serviceTax.length) {
             info.taxes.list.push({
                 name: 'Service Tax',
-                percent: serviceTaxPercent+'%',
+                percent: serviceTaxPercent + '%',
                 amount: $('p.service-tax-amount').html()
             });
             info.taxes.list.push({
@@ -286,7 +302,7 @@ $(document).ready(function() {
         return info;
     };
 
-    if(devMode) {
+    if (devMode) {
         // Fill in the test data
         $('input#billNo').val('TESTING');
         $('input#purchaser').val("John Ahmed Doe");
@@ -299,7 +315,13 @@ $(document).ready(function() {
         updateTotals();
     }
 
-    if(!utils.getCookie(COMPANY_NAME).length) {
+    if (!devMode) {
+        body.find('.under-development').each(function () {
+            $(this).hide();
+        });
+    }
+
+    if (!utils.getCookie(COMPANY_NAME).length) {
         $('.company-info').removeClass('hide');
         $('.change-seller-info').addClass('hide');
     } else {

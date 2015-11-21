@@ -1,3 +1,18 @@
+<!--
+Copyright 2015 ClayFish Technologies LLP
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,26 +34,26 @@
     //Depending on whether your page supports SSI (.shtml) or PHP (.php), UNCOMMENT the line below your page supports and COMMENT the one it does not:
     //Default is that SSI method is uncommented, and PHP is commented:
 
-//    var currentTime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->'; //SSI method of getting server date
+    //    var currentTime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->'; //SSI method of getting server date
     var currentTime = '<? print date("F d, Y H:i:s", time())?>'; //PHP method of getting server date
 
     ///////////Stop editting here/////////////////////////////////
 
-    var monthArray=["January","February","March","April","May","June","July","August","September","October","November","December"];
-    var serverDate=new Date(currentTime);
+    var monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var serverDate = new Date(currentTime);
 
-    function padlength(what){
-        return (what.toString().length==1)? "0"+what : what;
+    function padlength(what) {
+        return (what.toString().length == 1) ? "0" + what : what;
     }
 
-    function displayTime(){
-        serverDate.setSeconds(serverDate.getSeconds()+1);
-        var dateString=monthArray[serverDate.getMonth()]+" "+padlength(serverDate.getDate())+", "+serverDate.getFullYear();
-        var timeString=padlength(serverDate.getHours())+":"+padlength(serverDate.getMinutes())+":"+padlength(serverDate.getSeconds());
-        document.getElementById("server-time").innerHTML=dateString+" "+timeString;
+    function displayTime() {
+        serverDate.setSeconds(serverDate.getSeconds() + 1);
+        var dateString = monthArray[serverDate.getMonth()] + " " + padlength(serverDate.getDate()) + ", " + serverDate.getFullYear();
+        var timeString = padlength(serverDate.getHours()) + ":" + padlength(serverDate.getMinutes()) + ":" + padlength(serverDate.getSeconds());
+        document.getElementById("server-time").innerHTML = dateString + " " + timeString;
     }
 
-    window.onload=function(){
+    window.onload = function () {
         setInterval("displayTime()", 1000)
     }
 
