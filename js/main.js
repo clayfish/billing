@@ -26,16 +26,37 @@ $(document).ready(function () {
     var COMPANY_TIN = "companyTin";
     var COMPANY_SERVICE_TAX = "companyServiceTax";
     var COMPANY_ADDRESS = "companyAddress";
+    var COMPANY_CURRENCY = "companyCurrency";
     // In days
     var DEFAULT_COOKIE_LIFE = 30;
 
+    /**
+     *
+     * @param str with currency symbol
+     * @returns {number}
+     * @deprecated It may be error-prone in multi-currency scenario
+     */
     var getNumber = function (str) {
-        str = str.replace('₹', '').trim();
-        return str.length ? parseFloat(str.replace('₹', '').trim()) : 0;
+        str = str.replace(billWriter.config.currency, '').trim();
+        return str.length ? parseFloat(str.replace(billWriter.config.currency, '').trim()) : 0;
+    };
+
+    /**
+     * Updates the currency symbol in the web-page and PDF
+     * @param currency The symbol of currency
+     */
+    var updateCurrency = function (currency) {
+        body.find('span.currency').each(function () {
+            $(this).html(currency);
+        });
     };
 
     body.find('span.current-year').html(new Date().getFullYear());
+    updateCurrency();
 
+    /**
+     *
+     */
     var checkServiceTaxApplicability = function () {
         var serviceTaxGroup = $('.service-tax-group');
         if ($('#company-service-tax-no').val().length) {
@@ -45,31 +66,40 @@ $(document).ready(function () {
         }
     };
 
+    /**
+     *
+     */
     var updateItemTotal = function () {
         var total = 0;
         $('.items .item').each(function () {
-            total = total + getNumber($(this).find('.item-row-price').html());
+            total = total + parseFloat($(this).find('.item-row-price .numeral').text());
         });
         total = total.toFixed(2);
-        $('.item-total').html('&#8377; ' + total);
+        $('.item-total .numeral').html(total);
     };
 
+    /**
+     *
+     */
     var updateDiscountTotal = function () {
-        var percentageDiscount = getNumber($('input#discount').val());
+        var percentageDiscount = $('input#discount').val();
         if (percentageDiscount > 0) {
-            var itemTotal = getNumber($('.item-total').html());
+            var itemTotal = $('.item-total .numeral').text();
             var discountAmount = itemTotal * percentageDiscount / 100;
             discountAmount = discountAmount.toFixed(2);
-            $('.discount-amount').html('-&#8377; ' + discountAmount);
-            $('.discount-total').html('&#8377; ' + (itemTotal - discountAmount).toFixed(2));
+            $('.discount-amount .numeral').html(discountAmount);
+            $('.discount-total .numeral').html((itemTotal - discountAmount).toFixed(2));
         } else {
-            $('.discount-amount').html('-&#8377; 0');
-            $('.discount-total').html($('.item-total').html());
+            $('.discount-amount .numeral').html('0');
+            $('.discount-total .numeral').html($('.item-total .numeral').html());
         }
     };
 
+    /**
+     *
+     */
     var updateTotalPayable = function () {
-        var totalAmount = getNumber($('.discount-total').html());
+        var totalAmount = parseFloat($('.discount-total .numeral').text());
         var vatAmount = totalAmount * $('input#vat').val() / 100;
         var serviceTaxAmount = totalAmount * $('input#service-tax').val() / 100;
         var educationCess = serviceTaxAmount / 50;
@@ -82,19 +112,25 @@ $(document).ready(function () {
         higherEducationCess = higherEducationCess.toFixed(2);
         totalAmountWithTax = totalAmountWithTax.toFixed(2);
 
-        $('.vat-amount').html('&#8377; ' + vatAmount);
-        $('.service-tax-amount').html('&#8377; ' + serviceTaxAmount);
-        $('.education-cess').html('&#8377; ' + educationCess);
-        $('.higher-education-cess').html('&#8377; ' + higherEducationCess);
-        $('.total-with-tax').html('&#8377; ' + totalAmountWithTax);
+        $('.vat-amount .numeral').html(vatAmount);
+        $('.service-tax-amount .numeral').html(serviceTaxAmount);
+        $('.education-cess .numeral').html(educationCess);
+        $('.higher-education-cess .numeral').html(higherEducationCess);
+        $('.total-with-tax .numeral').html(totalAmountWithTax);
     };
 
+    /**
+     *
+     */
     var updateTotals = function () {
         updateItemTotal();
         updateDiscountTotal();
         updateTotalPayable();
     };
 
+    /**
+     *
+     */
     var clearForms = function () {
         $('form').each(function () {
             this.reset();
@@ -136,6 +172,13 @@ $(document).ready(function () {
         billWriter.config.contactNumber = companyPhone;
     });
 
+    body.on('change', '#company-currency', function (e) {
+        var companyCurrency = $(this).val();
+        utils.setCookie(COMPANY_CURRENCY, companyCurrency, DEFAULT_COOKIE_LIFE);
+        billWriter.config.currency = companyCurrency;
+        updateCurrency(companyCurrency);
+    });
+
     body.on('click', '.change-seller-info', function (e) {
         $('.company-info').removeClass('hide');
         $(this).addClass('hide');
@@ -165,14 +208,14 @@ $(document).ready(function () {
 
     body.on('change', '.item-price, .item-quantity', function () {
         var parent = $(this).closest('.item');
-        var price = getNumber($(parent).find('.item-price').val()) * getNumber($(parent).find('.item-quantity').val());
+        var price = $(parent).find('.item-price').val() * $(parent).find('.item-quantity').val();
         price = price.toFixed(2);
-        $(parent).find('.item-row-price').html('&#8377; ' + price);
+        $(parent).find('.item-row-price .numeral').html(price);
         updateTotals();
     });
 
     body.on('change', 'input#discount', function () {
-        var percentageDiscount = getNumber($(this).val());
+        var percentageDiscount = $(this).val();
         if (percentageDiscount > 100 || percentageDiscount < 0) {
             $(this).val(0);
         }
@@ -182,7 +225,7 @@ $(document).ready(function () {
     });
 
     body.on('change', 'input#vat', function () {
-        var vatPercent = getNumber($(this).val());
+        var vatPercent = $(this).val();
         if (vatPercent > 100 || vatPercent < 0) {
             $(this).val(0);
         }
@@ -190,7 +233,7 @@ $(document).ready(function () {
     });
 
     body.on('change', 'input#service-tax', function () {
-        var serviceTaxPercent = getNumber($(this).val());
+        var serviceTaxPercent = $(this).val();
         if (serviceTaxPercent > 100 || serviceTaxPercent < 0) {
             $(this).val(0);
         }
@@ -241,7 +284,7 @@ $(document).ready(function () {
         };
 
         info.items = {
-            total: $('p.item-total').html(),
+            total: $('p.item-total').text(),
             list: []
         };
         $('.items .item').each(function () {
@@ -249,7 +292,7 @@ $(document).ready(function () {
                 name: $(this).find('input.item-name').val(),
                 price: $(this).find('input.item-price').val(),
                 unit: $(this).find('input.item-quantity').val(),
-                amount: $(this).find('p.item-row-price').html()
+                amount: $(this).find('p.item-row-price').text()
             });
         });
 
@@ -257,12 +300,12 @@ $(document).ready(function () {
         info.discount = {
             available: discountPercent > 0,
             percent: discountPercent + '%',
-            amount: $('p.discount-amount').html(),
-            totalAfterDiscount: $('p.discount-total').html()
+            amount: $('p.discount-amount').text(),
+            totalAfterDiscount: $('p.discount-total').text()
         };
 
         info.taxes = {
-            totalWithTaxes: $('p.total-with-tax').html(),
+            totalWithTaxes: $('p.total-with-tax').text(),
             list: []
         };
 
@@ -273,7 +316,7 @@ $(document).ready(function () {
             info.taxes.list.push({
                 name: taxName,
                 percent: vatPercent + '%',
-                amount: $('p.vat-amount').html()
+                amount: $('p.vat-amount').text()
             });
         }
 
@@ -281,17 +324,17 @@ $(document).ready(function () {
             info.taxes.list.push({
                 name: 'Service Tax',
                 percent: serviceTaxPercent + '%',
-                amount: $('p.service-tax-amount').html()
+                amount: $('p.service-tax-amount').text()
             });
             info.taxes.list.push({
                 name: 'Education Cess',
                 percent: '2%',
-                amount: $('p.education-cess').html()
+                amount: $('p.education-cess').text()
             });
             info.taxes.list.push({
                 name: 'Higher Education Cess',
                 percent: '1%',
-                amount: $('p.higher-education-cess').html()
+                amount: $('p.higher-education-cess').text()
             });
         }
 
@@ -330,12 +373,14 @@ $(document).ready(function () {
         billWriter.config.address = utils.getCookie(COMPANY_ADDRESS);
         billWriter.config.tin = utils.getCookie(COMPANY_TIN);
         billWriter.config.serviceTax = utils.getCookie(COMPANY_SERVICE_TAX);
+        billWriter.config.currency = utils.getCookie(COMPANY_CURRENCY);
 
         $('#company-name').val(billWriter.config.companyName);
         $('#company-address').val(billWriter.config.address);
         $('#company-tin').val(billWriter.config.tin);
         $('#company-service-tax-no').val(billWriter.config.serviceTax);
         $('#company-contact').val(billWriter.config.contactNumber);
+        $('#company-currency').val(billWriter.config.currency);
         checkServiceTaxApplicability();
     }
 

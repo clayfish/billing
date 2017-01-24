@@ -15,13 +15,14 @@
  */
 
 var billWriter = {
-    version: '0.1.0',
+    version: '0.2.0',
     config: {
         companyName: "",
         address: "",
         tin: "",
         serviceTax: '',
         contactNumber: '',
+        currency: 'INR',
         terms: ["Goods once sold cannot be taken back.",
             "Interest @18% pa chargeable on bills unpaid for more than 15 days.",
             "Dispute will be under Delhi jurisdiction.",
