@@ -102,20 +102,20 @@ $(document).ready(function () {
         var totalAmount = parseFloat($('.discount-total .numeral').text());
         var vatAmount = totalAmount * $('input#vat').val() / 100;
         var serviceTaxAmount = totalAmount * $('input#service-tax').val() / 100;
-        var educationCess = serviceTaxAmount / 50;
-        var higherEducationCess = educationCess / 2;
-        var totalAmountWithTax = totalAmount + vatAmount + serviceTaxAmount + educationCess + higherEducationCess;
+        var bharatCess = totalAmount * 5 / 1000;
+        var kkCess = bharatCess;
+        var totalAmountWithTax = totalAmount + vatAmount + serviceTaxAmount + bharatCess + kkCess;
 
         vatAmount = vatAmount.toFixed(2);
         serviceTaxAmount = serviceTaxAmount.toFixed(2);
-        educationCess = educationCess.toFixed(2);
-        higherEducationCess = higherEducationCess.toFixed(2);
+        bharatCess = bharatCess.toFixed(2);
+        kkCess = kkCess.toFixed(2);
         totalAmountWithTax = totalAmountWithTax.toFixed(2);
 
         $('.vat-amount .numeral').html(vatAmount);
         $('.service-tax-amount .numeral').html(serviceTaxAmount);
-        $('.education-cess .numeral').html(educationCess);
-        $('.higher-education-cess .numeral').html(higherEducationCess);
+        $('.bharat-cess .numeral').html(bharatCess);
+        $('.kk-cess .numeral').html(kkCess);
         $('.total-with-tax .numeral').html(totalAmountWithTax);
     };
 
@@ -261,6 +261,10 @@ $(document).ready(function () {
     //    billWriter.download(doc);
     //});
 
+    /**
+     *
+     * @returns {{}}
+     */
     var createFormDataObject = function () {
         var info = {};
 
@@ -327,14 +331,14 @@ $(document).ready(function () {
                 amount: $('p.service-tax-amount').text()
             });
             info.taxes.list.push({
-                name: 'Education Cess',
-                percent: '2%',
-                amount: $('p.education-cess').text()
+                name: 'Swachchh Bharat Cess',
+                percent: '0.5%',
+                amount: $('p.bharat-cess').text()
             });
             info.taxes.list.push({
-                name: 'Higher Education Cess',
-                percent: '1%',
-                amount: $('p.higher-education-cess').text()
+                name: 'Krishi Kalyan Cess',
+                percent: '0.5%',
+                amount: $('p.kk-cess').text()
             });
         }
 
